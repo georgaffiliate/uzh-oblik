@@ -25,4 +25,3 @@ jobs:
         script: |
           cd /var/www/html
           git pull origin main
-          # Інші команди, які необхідно виконати після розгортання.
