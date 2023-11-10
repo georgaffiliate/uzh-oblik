@@ -31,25 +31,54 @@
 				</div>
 				<h2 class="auth-heading text-center mb-5">Увійти в систему</h2>
 				<div class="auth-form-container text-start">
-					<form class="auth-form login-form">
-						<div class="email mb-3">
-							<label class="sr-only" for="signin-email">Логін</label>
-							<input id="login" name="login" type="text" class="form-control signin-email"
-								placeholder="Username" required="required">
+					<form id="login-form" class="auth-form login-form">
+						<div>
+							<label for="username">Логін</label>
+							<input type="text" id="username" name="username" class="form-control signin-email" required>
 						</div>
-						<div class="password mb-3">
-							<label class="sr-only" for="signin-password">Password</label>
-							<input id="signin-password" name="signin-password" type="password"
-								class="form-control signin-password" placeholder="Password" required="required">
+						<div>
+							<label for="password">Пароль</label>
+							<input type="password" id="password" class="form-control signin-password" name="password" required>
 						</div>
-						<div class="text-center">
-							<button type="submit" class="btn app-btn-primary w-100 theme-btn mx-auto">Увійти</button>
-						</div>
+						<br>
+						<button class="btn app-btn-primary w-100 theme-btn mx-auto" type="submit">Увійти</button>
 					</form>
+					
 				</div>
 			</div>
+			<div id="response"></div>
 		</div>
+		<script>
+	document.getElementById('login-form').addEventListener('submit', function (event) {
+    event.preventDefault();
 
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    const data = {
+        username: username,
+        password: password
+    };
+
+    fetch('http://3.71.13.232:5001/users', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Обробка відповіді від сервера
+        console.log(data);
+    })
+    .catch(error => {
+        console.error('Помилка:', error);
+    });
+});
+
+			</script>
+			
 		<!-- Правий блок -->
 		<div class="col-12 col-md-5 col-lg-6 h-100 auth-background-col">
 			<div class="auth-background-holder">
