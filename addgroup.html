@@ -17,7 +17,33 @@
     
     <!-- App CSS -->  
     <link id="theme-style" rel="stylesheet" href="assets/css/portal.css">
+	<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const url = 'http://3.71.13.232:5001/norm/draft';
 
+            fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                // No body for this example since you mentioned without parameters
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Network response was not ok: ${response.status}`);
+                }
+                return response.json(); // Assuming the server returns JSON, adjust as needed
+            })
+            .then(data => {
+                // Handle the response data if needed
+                console.log('PUT request successful:', data);
+            })
+            .catch((error) => {
+                console.error('Error during PUT request:', error);
+                // Handle errors if needed
+            });
+        });
+    </script>
 </head> 
 
 <body class="app">   	
@@ -197,19 +223,38 @@
 					        </a><!--//nav-link-->
 					        <div id="submenu-1" class="collapse submenu submenu-1 show active" data-bs-parent="#menu-accordion">
 						        <ul class="submenu-list list-unstyled">
-							        <li class="submenu-item"><a class="submenu-link" href="notifications.html">Сповіщення</a></li>
-							        <li class="submenu-item"><a class="submenu-link active" ahref="account.html">Додати військовослужбовця</a></li>
-				
-							        
+							        <li class="submenu-item"><a class="submenu-link" href="#">Сповіщення</a></li>
+							        <li class="submenu-item"><a class="submenu-link" ahref="addvs.html">Додати військовослужбовця</a></li>
+									<li class="submenu-item"><a class="submenu-link" href="	additem.html">Додати майно</a></li>
+									<li class="submenu-item"><a class="submenu-link active" href="	addnorma.html">Додати норму забезпечення</a></li>			        
 						        </ul>
 					        </div>
 					    </li><!--//nav-item-->
-					    
+						<li class="nav-item">
+							<!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+							<a class="nav-link" href="smlist.html">
+								<span class="nav-icon">
+									<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-person" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M12 1H4a1 1 0 0 0-1 1v10.755S4 11 8 11s5 1.755 5 1.755V2a1 1 0 0 0-1-1zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z"></path>
+  <path fill-rule="evenodd" d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+</svg>
+								</span>
+								<span class="nav-link-text">Список в/c</span>
+							</a><!--//nav-link-->
+						</li>
+						<a class="nav-link " href="itemlist.html">
+							<span class="nav-icon">
+							<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bar-chart-line" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z"></path>
+</svg>
+							 </span>
+							 <span class="nav-link-text">Список майна</span>
+						</a>
 					    
 					    
 					    <li class="nav-item">
 					        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-					        <a class="nav-link" href="help.html">
+					        <a class="nav-link" href="#">
 						        <span class="nav-icon">
 						        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-question-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -248,51 +293,86 @@
 	    
 	    <div class="app-content pt-3 p-md-3 p-lg-4">
 		    <div class="container-xl">			    
-			    <h1 class="app-page-title">Settings</h1>
+			    <h1 class="app-page-title">Норма військовослужбовця</h1>
 			    <hr class="mb-4">
                 <div class="row g-4 settings-section">
 	                <div class="col-12 col-md-4">
-		                <h3 class="section-title">Додати військовослужбовця в систему</h3>
-		                <div class="section-intro">Тут ви повинні внести дані військовослужбовця якого хочете додати в систему</div>
+		                <h3 class="section-title"> <br>стать чоловіча, звання сержант, від 01.01.2022 до 02.02.2023</h3>
+		                <div class="section-intro"></div>
 	                </div>
 	                <div class="col-12 col-md-8">
 		                <div class="app-card app-card-settings shadow-sm p-4">
 						    
 						    <div class="app-card-body">
 							    <form class="settings-form">
-								    <div class="mb-3">
-									    <label for="setting-input-1" class="form-label">Ім'я<span class="ms-2" data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus"  data-bs-placement="top" data-bs-content="This is a Bootstrap popover example. You can use popover to provide extra info."><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-  <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
-  <circle cx="8" cy="4.5" r="1"/>
-</svg></span></label>
-									    <input type="text" class="form-control" name="name" id="setting-input-1" value="Іван" required>
+									<div class="mb-3">
+										<label for="setting-input-1" class="form-label">d<span class="ms-2" data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus"  data-bs-placement="top" data-bs-content="This is a Bootstrap popover example. You can use popover to provide extra info."><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+								  <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+								  <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
+								  <circle cx="8" cy="4.5" r="1"/>
+								</svg></span></label><br>
+										<input type="checkbox" id="male" name="gender" value="male" class="gender-checkbox">
+										<label for="male"> Чоловік</label><br>
+										<input type="checkbox" id="female" name="gender" value="female" class="gender-checkbox">
+										<label for="female"> Жінка</label><br>
+									</div>
+								
+									<div class="mb-3">
+										<label for="setting-input-1" class="form-label">Звання<span class="ms-2" data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus"  data-bs-placement="top" data-bs-content="This is a Bootstrap popover example. You can use popover to provide extra info."><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+								  <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+								  <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
+								  <circle cx="8" cy="4.5" r="1"/>
+								</svg></span></label><br>
+										<input type="checkbox" id="sergeant" name="rank" value="sergeant" class="rank-checkbox">
+										<label for="sergeant"> Сержант</label><br>
+										<input type="checkbox" id="captain" name="rank" value="captain" class="rank-checkbox">
+										<label for="captain"> Капітан</label><br>
+										<input type="checkbox" id="colonel" name="rank" value="colonel" class="rank-checkbox">
+										<label for="colonel"> Полковник</label><br>
 									</div>
 									<div class="mb-3">
-									    <label for="setting-input-2" class="form-label">Прізвище</label>
-									    <input type="text" class="form-control" name="surname"  id="setting-input-2" value="Іванов" required>
+										<label for="startdate" class="form-label">Дата початку<span class="ms-2" data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus"  data-bs-placement="top" data-bs-content="Введіть дату початку служби"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+											<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+											<path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
+											<circle cx="8" cy="4.5" r="1"/>
+										</svg></span></label>
+										<br>
+										<input type="date" id="startdate" name="startdate">
 									</div>
-								    <div class="mb-3">
-									    <label for="setting-input-3" class="form-label">По-батькові</label>
-									    <input type="text" class="form-control" name="patronymic"  id="setting-input-3" value="Іванович">
+									<div class="mb-3">
+										<label for="enddate" class="form-label">Дата кінця<span class="ms-2" data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus"  data-bs-placement="top" data-bs-content="Введіть дату початку служби"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+											<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+											<path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
+											<circle cx="8" cy="4.5" r="1"/>
+										</svg></span></label>
+										<br>
+										<input type="date" id="enddate" name="enddate">
 									</div>
-									<button type="submit" class="btn app-btn-primary" >Додати користувача</button>
-							    </form>
+									<button type="submit" class="btn app-btn-primary">Додати норму</button>
+									<p style="color:green;" id="response-message"></p>
+								</form>
 								<script>
-									document.addEventListener('DOMContentLoaded', function () {
+		document.addEventListener('DOMContentLoaded', function () {
     const form = document.querySelector('.settings-form');
+    const responseMessage = document.getElementById('response-message');
 
     form.addEventListener('submit', function (event) {
         event.preventDefault();
 
         const formData = new FormData(form);
-        const requestData = {};
+        const genderData = formData.getAll('gender');
+        const rankData = formData.getAll('rank');
+        const startdate = formData.get('startdate');
+        const enddate = formData.get('enddate');
 
-        formData.forEach((value, key) => {
-            requestData[key] = value;
-        });
+        const requestData = {
+            sexes: genderData,
+            ranks: rankData,
+            to: enddate,
+            from: startdate,
+        };
 
-        const url = 'http://3.71.13.232:5001/serviceman';
+        const url = 'http://3.71.13.232:5001/norm';
 
         fetch(url, {
             method: 'PUT',
@@ -303,36 +383,61 @@
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Success:', data);
-            // Додайте код для обробки успішної відповіді тут
+            if (data && data.id && data.gender && data.gender.length > 0) {
+                // Відображення повідомлення про успішне додавання
+                responseMessage.innerHTML = `Військовослужбовця успішно додано в систему.`;
+
+                // Перевірка, чи є ідентифікатор в отриманих даних
+                if (data.id) {
+                    // Створення посилання "Переглянути його картку"
+                    const viewLink = document.createElement('a');
+                    viewLink.href = `smcurrent.html?id=${data.id}`;
+                    viewLink.textContent = ' Переглянути його картку';
+
+                    // Додавання посилання до повідомлення
+                    responseMessage.appendChild(viewLink);
+                }
+            } else {
+                responseMessage.textContent = `Норму успішно додано.`;
+            }
         })
         .catch((error) => {
-            console.error('Error:', error);
-            // Додайте код для обробки помилки тут
+            responseMessage.textContent = `Помилка: ${error.message || 'Невідома помилка'}`;
+            console.error('Помилка при виконанні запиту:', error);
+            // Додайте код для відображення повідомлення про помилку користувачу тут
         });
     });
 });
+
 
 								</script>
 						    </div><!--//app-card-body-->
 						    
 						</div><!--//app-card-->
 	                </div>
+					
                 </div><!--//row-->
                 
 							    </form>
-						    </div><!--//app-card-body-->						    
+								
+									
+								</div>
+						    </div><!--//app-card-body-->	
+							
+						
 						</div><!--//app-card-->
 	                </div>
+					
                 </div><!--//row-->
 			    <hr class="my-4">
+				
 		    </div><!--//container-fluid-->
 	    </div><!--//app-content-->
 	    
 	    <footer class="app-footer">
 		    <div class="container text-center py-3">
 		         <!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
-            <small class="copyright">Управління в Держспецзв'язку в Закарпатській області</small>
+            <small class="copyright">Управління ... області</small>
 		       
 		    </div>
 	    </footer><!--//app-footer-->

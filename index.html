@@ -17,7 +17,19 @@
     
     <!-- App CSS -->  
     <link id="theme-style" rel="stylesheet" href="assets/css/portal.css">
+	<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Перевірка, чи існує запис про авторизацію в sessionStorage
+    const isAuthenticated = sessionStorage.getItem('authenticated');
 
+    if (!isAuthenticated) {
+        // Користувач не авторизований, перенаправлення на сторінку входу
+        window.location.replace('login.html');
+    }
+
+    window.location.replace('smlist.html');
+});
+		</script>
 </head> 
 
 <body class="app">   	

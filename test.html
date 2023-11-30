@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expires Query</title>
+</head>
+<body>
+
+    <form id="expires-form">
+        <label for="from_date">From Date:</label>
+        <input type="date" id="from_date" name="from_date" required>
+
+        <label for="term">Term:</label>
+        <input type="text" id="term" name="term" placeholder="Enter term" required>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('expires-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const from_date = document.getElementById('from_date').value;
+            const term = document.getElementById('term').value;
+
+            const url = `http://3.71.13.232:5001/expires?from=${from_date}&term=${term}`;
+
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Received data:', data);
+                // Додайте код для обробки отриманих даних тут
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                // Додайте код для обробки помилки тут
+            });
+        });
+    </script>
+
+</body>
+</html>
