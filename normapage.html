@@ -193,14 +193,24 @@
 			    <!-- Ваш HTML-код -->
 			<div id="menu-container"></div>
 
-<script>
-    fetch('menu.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('menu-container').innerHTML = data;
-      })
-      .catch(error => console.error('Fetch error:', error));
-</script>
+			<script>
+				fetch('menu.html')
+					.then(response => response.text())
+					.then(data => {
+						document.getElementById('menu-container').innerHTML = data;
+						
+						// Позначення активної сторінки
+						var currentPage = window.location.href.split('/').pop();
+						var menuLinks = document.querySelectorAll('#menu-container a');
+			
+						menuLinks.forEach(link => {
+							if (link.getAttribute('href') === currentPage) {
+								link.parentElement.classList.add('active');
+							}
+						});
+					})
+					.catch(error => console.error('Fetch error:', error));
+			</script>
 				
 			    <div class="app-sidepanel-footer">
 				    <nav class="app-nav app-nav-footer">
