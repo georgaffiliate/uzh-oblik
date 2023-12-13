@@ -240,16 +240,13 @@
 									</div>
 									<div class="mb-3">
 										<label for="setting-input-3" class="form-label">Звання</label>
-										<select class="form-control" name="rank" id="setting-input-4">
-											<option value="1">Солдат</option>
-											<option value="2">Сержант</option>
-											<option value="3">Лейтенант</option>
-											<option value="4">Капітан</option>
-											<option value="5">Майор</option>
-											<option value="6">Полковник</option>
-											<option value="7">Генерал</option>
-										</select>
+										<select class="form-control" name="rank" id="setting-input-4"></select>
 									</div>
+									
+
+									
+							
+									
 									<div class="mb-3">
 										<label for="setting-input-3" class="form-label">Стать</label>
 										<div class="form-check">
@@ -262,40 +259,129 @@
 										</div>
 									</div>
 									<div class="mb-3">
-									    <label for="setting-input-3" class="form-label">Група забезпечення</label>
-									    <select class="form-control" name="group"  id="setting-input-6">
-											<option value="private">1 група</option>
-    <option value="sergeant">2 група</option>
-    
-											</select>
+										<label for="setting-input-6" class="form-label">Група забезпечення</label>
+										<select class="form-control" name="group" id="setting-input-6"></select>
+									</div>
+									
+<script>
+    function loadRanks() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://3.71.13.232:5001/ranks', true);
+
+        xhr.onload = function () {
+            if (xhr.status == 200) {
+                var ranksText = xhr.responseText;
+
+                // Розпарсити як текст
+                var ranks = ranksText.split(',').map(function (rank) {
+                    return rank.replace(/["\[\]]/g, ''); // Видалити лапки та квадратні дужки
+                });
+
+                console.log('Ranks (Text):', ranks);
+                populateSelect(ranks, 'setting-input-4');
+                loadGroups();
+            } else {
+                console.error('Не вдалося отримати дані з сервера');
+            }
+        };
+
+        xhr.send();
+    }
+
+    function loadGroups() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://3.71.13.232:5001/groups', true);
+
+    xhr.onload = function () {
+        if (xhr.status == 200) {
+            var groupsText = xhr.responseText;
+
+            try {
+                // Розпарсити текст як JSON
+                var groups = JSON.parse(groupsText);
+
+                console.log('Groups (JSON):', groups);
+
+                // Отримати масив груп з об'єкту JSON
+                var groupsArray = Object.values(groups);
+
+                // Передати масив як опцію для select
+                populateSelect(groupsArray, 'setting-input-6');
+            } catch (error) {
+                console.error('Помилка розбору JSON:', error);
+            }
+        } else {
+            console.error('Не вдалося отримати дані з сервера');
+        }
+    };
+
+    xhr.send();
+}
+
+
+    function decodeUnicode(str) {
+        return str.replace(/\\u[\dA-Fa-f]{4}/g, function (match) {
+            return String.fromCharCode(parseInt(match.replace(/\\u/g, ''), 16));
+        });
+    }
+
+    function populateSelect(items, selectId) {
+    var select = document.getElementById(selectId);
+
+    select.innerHTML = '';
+
+    items.forEach(function (item, index) {
+        var option = document.createElement('option');
+        option.text = decodeUnicode(item);
+        option.value = index + 1;
+        select.add(option);
+    });
+}
+
+loadRanks();
+</script>
 									</div>
 									<button type="submit" class="btn app-btn-primary" >Додати військовослужбовця</button>
 									<p style="color:green;" id="response-message"></p>
 							    </form>
 								<script>
-									document.addEventListener('DOMContentLoaded', function () {
-										const form = document.querySelector('.settings-form');
-										const responseMessage = document.getElementById('response-message');
-								
-										form.addEventListener('submit', function (event) {
-											event.preventDefault();
-								
-											const formData = new FormData(form);
-											const requestData = {};
-								
-											formData.forEach((value, key) => {
-												requestData[key] = value;
-											});
-								
-											const url = 'http://3.71.13.232:5001/serviceman';
-								
-											fetch(url, {
-												method: 'PUT',
-												headers: {
-													'Content-Type': 'application/json',
-												},
-												body: JSON.stringify(requestData),
-											})
+								document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('.settings-form');
+    const responseMessage = document.getElementById('response-message');
+
+	form.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const formData = new FormData(form);
+    const requestData = {};
+
+    formData.forEach((value, key) => {
+        if (key === 'rank' || key === 'group') {
+            // Перетворити значення rank та group в цілі числа
+            requestData[key] = parseInt(value);
+        } else if (key === 'sex') {
+            requestData[key] = value === 'true';
+        } else {
+            requestData[key] = value;
+        }
+    });
+
+    // Отримати значення вибраного елемента select для групи
+    const groupSelect = document.getElementById('setting-input-6');
+    const selectedGroupText = groupSelect.options[groupSelect.selectedIndex].text;
+
+    // Додати текст вибраної групи до об'єкта requestData
+    requestData['group'] = selectedGroupText;
+
+    const url = 'http://3.71.13.232:5001/serviceman';
+
+    fetch(url, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+    })
 											.then(response => response.json())
 .then(data => {
     // Відображення повідомлення про успішне додавання

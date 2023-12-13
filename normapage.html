@@ -18,7 +18,7 @@
     
     <!-- App CSS -->  
     <link id="theme-style" rel="stylesheet" href="assets/css/portal.css">
-	<script>
+	<!--<script>
         document.addEventListener('DOMContentLoaded', function () {
             const url = 'http://3.71.13.232:5001/norm/draft';
 
@@ -44,7 +44,7 @@
                 // Handle errors if needed
             });
         });
-    </script>
+    </script> -->
 </head> 
 
 <body class="app">   	
@@ -239,135 +239,231 @@
 	    
 	    <div class="app-content pt-3 p-md-3 p-lg-4">
 		    <div class="container-xl">			    
-			    <h1 class="app-page-title">Норма військовослужбовця:</h1>
-				<h4 class="section-title">стать чоловіча, звання сержант, від 01.01.2022 до 02.02.2023</h4>
+				<h1 class="app-page-title" id="normTitle">Норма військовослужбовця:</h1>
+
+				<h4 class="section-title" id="userInfo">стать: невідомо, звання: невідомо, період: невідомо</h4>
+
 			    <hr class="mb-4">
                 
 							
-					
-				<div class="app-card-body">
-					Група 1
+				<div class="app-card-body" id="groupContainer">
 					<div class="table-responsive">
-						<table class="table app-table-hover mb-0 text-left">
-							<thead>
-								<tr>
-									<th class="cell">Назва речі</th>
-									<th class="cell">Кількість</th>
-									<th class="cell">Строк носіння</th>
+						<script>
+							// Отримання параметра id з URL
+							const urlParams = new URLSearchParams(window.location.search);
+							const id = urlParams.get('id');
+						
+							// URL для гет-запиту
+							const apiUrl = `http://3.71.13.232:5001/norm/${id}`;
+						
+							// Виконання гет-запиту
+							fetch(apiUrl)
+								.then(response => response.json())
+								.then(data => {
+									// Отримання контейнера для інформації про норму
+									const normTitle = document.getElementById('normTitle');
+									
+									// Оновлення текстового вмісту з назвою норми
+									normTitle.innerText = `Норма військовослужбовця: ${data.name}`;
+									
+									// Отримання контейнера для інформації про користувача
+									const userInfo = document.getElementById('userInfo');
+						
+									// Визначення статі на основі гендера
+									const mapBooleanToName = bool => (bool ? 'чоловіча' : 'жіноча');
+const genderText = data.genders.map(mapBooleanToName).join(', ');
 
+									// Оновлення текстового вмісту з отриманими даними
+									userInfo.innerText = `стать: ${genderText}, звання: ${data.from_rank} до ${data.to_rank}, період: з ${data.from_date} ${data.to_date ? 'до ' + data.to_date : ''}`;
 									
-									
-									<th class="cell"></th>
-								</tr>
-							</thead>
-							<tbody><tr><td>Кепі бойове</td><td>3</td><td>4 роки</td></tr></tbody>
-						</table>
-				
+									// Отримання контейнера для груп
+									const groupContainer = document.getElementById('groupContainer');
+						
+									// Цикл по групам
+									data.obligations.forEach(item => {
+										// Перевірка, чи існує вже контейнер для групи
+										let groupDiv = document.getElementById(`group${item.group}`);
+										if (!groupDiv) {
+											// Створення нового контейнера для групи
+											groupDiv = document.createElement('div');
+											groupDiv.id = `group${item.group}`;
+											groupDiv.className = 'table-responsive';
+											groupDiv.innerHTML = `<br><h3>${item.group}</h3><table class="table app-table-hover mb-0 text-left"><thead><tr><th class="cell">Назва речі</th><th class="cell">Кількість</th><th class="cell">Строк носіння</th><th class="cell">Інвентарне</th></tr></thead><tbody></tbody></table>`;
+											groupContainer.appendChild(groupDiv);
+										}
+						
+										// Отримання таблиці для поточної групи
+										const table = groupDiv.getElementsByTagName('tbody')[0];
+						
+										// Додавання рядка з даними в таблицю
+										const row = table.insertRow();
+										const cell1 = row.insertCell(0);
+										const cell2 = row.insertCell(1);
+										const cell3 = row.insertCell(2);
+										const cell4 = row.insertCell(3);
+						
+										cell1.innerHTML = item.item.name;    // Назва речі
+										cell2.innerHTML = item.count;        // Кількість
+										cell3.innerHTML = (item.term / 365).toFixed(2); // Поділити term на 365 та обмежити до двох знаків після коми
+        // Строк носіння
+										cell4.innerHTML = item.item.returnable ? 'Так' : 'Ні'; // Інвентарне
+									});
+								})
+								.catch(error => console.error('Помилка:', error));
+						</script>
 					</div><!--//table-responsive-->
 				   
 				</div>
 				<br>
-				<div class="app-card-body">
-					Група 2
-					<div class="table-responsive">
-						<table class="table app-table-hover mb-0 text-left">
-							<thead>
-								<tr>
-									<th class="cell">Назва речі</th>
-									<th class="cell">Кількість</th>
-									<th class="cell">Строк носіння</th>
+				<!--//table-responsive-->
+					<!-- Додайте кнопку "Зберегти групу" -->
+<div class="container mt-5">
+    <input type="text" id="groupName" class="form-control mb-2" placeholder="Введіть ім'я групи">
+    <button type="button" class="btn app-btn-primary mb-2" onclick="addNewGroup()">Додати нову групу</button>
 
-									
-									
-									<th class="cell"></th>
-								</tr>
-							</thead>
-							<tbody><tr><td>Кепі бойове</td><td>3</td><td>4 роки</td></tr></tbody>
-						</table>
-				
-					</div><!--//table-responsive-->
-				   
+    <!-- Додайте інпут для введення імені групи -->
+
+	<form id="myForm" style="display: none;">
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Назва речі</th>
+					<th scope="col">Кількість</th>
+					<th scope="col">Строк носіння</th>
+				</tr>
+			</thead>
+			<tbody id="tableBody">
+				<!-- Тут будуть додаватися рядки для речей -->
+			</tbody>
+		</table>
+	
+		<div class="row">
+			<div class="col">
+				<button type="button" class="btn app-btn-primary" onclick="addRow()">Додати річ</button>
+			</div>
+			<div class="col text-right">
+				<button type="button" class="btn btn-success" onclick="saveTable()">Зберегти групу</button>
+
+			</div>
+		</div>
+	</form>
+	
+	<!-- JavaScript код -->
+	<script>
+		function addNewGroup() {
+			var groupName = document.getElementById('groupName').value;
+			if (groupName.trim() !== '') {
+				document.getElementById('myForm').style.display = 'block';
+			} else {
+				alert('Будь ласка, введіть ім\'я групи.');
+			}
+		}
+	
+		function addRow() {
+    var tableBody = document.getElementById('tableBody');
+    var newRow = tableBody.insertRow();
+    var cells = [];
+
+    // Додати селектор в першу колонку
+    cells[0] = newRow.insertCell(0);
+    var select = createItemSelector();
+    cells[0].appendChild(select);
+
+    // Додати числове поле в другу колонку для кількості
+    cells[1] = newRow.insertCell(1);
+    var quantityInput = document.createElement('input');
+    quantityInput.type = 'number';
+    quantityInput.className = 'form-control';
+    cells[1].appendChild(quantityInput);
+
+    // Додати числове поле в третю колонку для строки носіння
+    cells[2] = newRow.insertCell(2);
+    var durationInput = document.createElement('input');
+    durationInput.type = 'number';
+    durationInput.className = 'form-control';
+    cells[2].appendChild(durationInput);
+}
+	
+		function createItemSelector() {
+			var select = document.createElement('select');
+			select.className = 'form-control';
+	
+			// Завантажити дані для селектора з сервера
+			var xhr = new XMLHttpRequest();
+			xhr.open('GET', 'http://3.71.13.232:5001/item', false);  // Синхронний запит (для простоти)
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState === 4 && xhr.status === 200) {
+					var items = JSON.parse(xhr.responseText);
+					for (var i = 0; i < items.length; i++) {
+						var option = document.createElement('option');
+						option.value = items[i].id;
+						option.text = items[i].name;
+						select.appendChild(option);
+					}
+				}
+			};
+			xhr.send();
+	
+			return select;
+		}
+		function saveTable() {
+    var groupName = document.getElementById('groupName').value;
+    var normId = getParameterByName('id');  // Отримати параметр з URL
+
+    if (groupName.trim() === '') {
+        alert('Будь ласка, введіть ім\'я групи.');
+        return;
+    }
+
+    var tableBody = document.getElementById('tableBody');
+    var rows = tableBody.getElementsByTagName('tr');
+    var data = { "name": groupName, "items": [] }; // Зміни в структурі даних
+
+    for (var i = 0; i < rows.length; i++) {
+        var cells = Array.from(rows[i].getElementsByTagName('select')).concat(Array.from(rows[i].getElementsByTagName('input')));
+        var item = {
+            "item_id": parseInt(cells[0].value, 10),  // Перетворення в ціле число
+            "count": parseInt(cells[1].value, 10),    // Перетворення в ціле число
+            "term": parseInt(cells[2].value, 10) * 365  // Перетворення в ціле число
+        };
+        data.items.push(item);
+    }
+
+    // Відправити дані на сервер
+    var xhr = new XMLHttpRequest();
+    xhr.open('PUT', 'http://3.71.13.232:5001/norm/' + normId + '/group', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                console.log('Дані успішно відправлені:', xhr.responseText);
+                
+                // Перезавантажити сторінку після успішної відправки
+                window.location.reload();
+            } else {
+                console.error('Помилка відправлення даних на сервер:', xhr.status, xhr.statusText);
+				//window.location.reload();
+            }
+        }
+    };
+    xhr.send(JSON.stringify(data));
+
+    // Приховати форму та відобразити кнопку "Додати нову групу"
+    document.getElementById('myForm').style.display = 'none';
+    document.getElementById('groupName').value = ''; // Очистити поле введення імені групи
+}
+// Функція для отримання значення параметра з URL
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
+	</script>
+
 				</div>
 				<br>
-				<div class="app-card-body">
-					Група 3
-					<div class="table-responsive">
-						<table class="table app-table-hover mb-0 text-left">
-							<thead>
-								<tr>
-									<th class="cell">Назва речі</th>
-									<th class="cell">Кількість</th>
-									<th class="cell">Строк носіння</th>
-
-									
-									
-									<th class="cell"></th>
-								</tr>
-							</thead>
-							<tbody><tr><td>Кепі бойове</td><td>3</td><td>4 роки</td></tr>
-								<tr><td>Шкарпетки</td><td>3</td><td>4 роки</td></tr></tbody>
-						</table>
 				
-					</div><!--//table-responsive-->
-					<div class="container mt-5">
-						<form id="myForm">
-							<table class="table">
-								<thead>
-									<tr>
-										<th scope="col">Назва речі</th>
-										<th scope="col">Кількість</th>
-										<th scope="col">Строк носіння</th>
-									</tr>
-								</thead>
-								<tbody id="tableBody">
-									<!-- Тут будуть додаватися рядки для речей -->
-								</tbody>
-							</table>
-					
-							<div class="row">
-								<div class="col">
-									<button type="button" class="btn app-btn-primary" onclick="addRow()">Додати річ</button>
-								</div>
-								<div class="col text-right">
-									<button type="button" class="btn btn-success" onclick="saveTable()">Зберегти групу</button>
-								</div>
-							</div>
-						</form>
-					</div>
-					
-					<script>
-						function addRow() {
-							var tableBody = document.getElementById('tableBody');
-							var newRow = tableBody.insertRow();
-							var cells = [];
-					
-							for (var i = 0; i < 3; i++) {
-								cells[i] = newRow.insertCell(i);
-								var input = document.createElement('input');
-								input.type = 'text';
-								input.className = 'form-control';
-								cells[i].appendChild(input);
-							}
-						}
-					
-						function saveTable() {
-							var formData = new FormData(document.getElementById('myForm'));
-							var data = {};
-					
-							formData.forEach(function(value, key) {
-								data[key] = value;
-							});
-					
-							// Тут ви можете обробити дані або відправити на сервер
-					
-							// Просто для прикладу виводимо дані в консоль
-							console.log('Збережено дані:', data);
-						}
-					</script>
-					
-				</div>
-				<br>
-				<button type="submit" class="btn app-btn-primary">Додати нову групу</button>
 				<br><br>
 				<!-- Кнопка для відкриття попапа -->
 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmationModal">

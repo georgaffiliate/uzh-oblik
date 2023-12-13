@@ -210,307 +210,216 @@
 	    
 	    <div class="app-content pt-3 p-md-3 p-lg-4">
 		    <div class="container-xl">			    
-				<div class="app-card app-card-settings shadow-sm p-4">
+			    <h1 class="app-page-title">Сторінки</h1>
+			    <hr class="mb-4">
+                <div class="row g-4 settings-section">
+	                <div class="col-12 col-md-4">
+		                <h3 class="section-title">Додати військовослужбовця в систему</h3>
+		                <div class="section-intro">Тут ви повинні внести дані військовослужбовця якого хочете додати в систему</div>
+	                </div>
+	                <div class="col-12 col-md-8">
+		                <div class="app-card app-card-settings shadow-sm p-4">
 						    
-					<div class="app-card-body">
-						<h1 class="app-page-title">Додати майно до складу</h1>
-						<form class="settings-form">
-							<div class="mb-3">
-								<label for="setting-input-1" class="form-label">Назва <span class="ms-2" data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-content="This is a Bootstrap popover example. You can use popover to provide extra info."><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-									<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
-									<path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"></path>
-									<circle cx="8" cy="4.5" r="1"></circle>
-								</svg></span></label>
-								<input type="text" class="form-control" name="name" id="setting-input-1" value="Кепі бойове" required="">
-							</div>
-							<div class="mb-3">
-								<label for="setting-input-2" class="form-label">Інвентарне</label>
-								<input type="radio" name="radio2" value="Ні"> Ні
-								<input type="radio" name="radio2" value="Так"> Так
-							</div>
+						    <div class="app-card-body">
+							    <form class="settings-form">
+								    <div class="mb-3">
+									    <label for="setting-input-1" class="form-label">Ім'я<span class="ms-2" data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus"  data-bs-placement="top" data-bs-content="This is a Bootstrap popover example. You can use popover to provide extra info."><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+  <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
+  <circle cx="8" cy="4.5" r="1"/>
+</svg></span></label>
+									    <input type="text" class="form-control" name="name" id="setting-input-1" value="Іван" required>
+									</div>
+									<div class="mb-3">
+									    <label for="setting-input-2" class="form-label">Прізвище</label>
+									    <input type="text" class="form-control" name="surname"  id="setting-input-2" value="Іванов" required>
+									</div>
+								    <div class="mb-3">
+									    <label for="setting-input-3" class="form-label">По-батькові</label>
+									    <input type="text" class="form-control" name="patronymic"  id="setting-input-3" value="Іванович">
+									</div>
+									<div class="mb-3">
+										<label for="setting-input-3" class="form-label">Звання</label>
+										<select class="form-control" name="rank" id="setting-input-4"></select>
+									</div>
+									
+
+									
 							
-							<button type="submit" class="btn app-btn-primary">Додати майно до складу</button>
-							<p style="color:green;" id="response-message"></p>
-						</form>
-						<script>
-							document.addEventListener('DOMContentLoaded', function () {
-								const form = document.querySelector('.settings-form');
-						
-								form.addEventListener('submit', function (event) {
-									event.preventDefault();
-						
-									const nameInput = document.getElementById('setting-input-1');
-									const returnableInputs = document.querySelectorAll('input[name="radio2"]');
-									const sizeInput = document.getElementById('setting-input-3');
-						
-									const selectedReturnable = Array.from(returnableInputs).find(input => input.checked);
-						
-									const data = {
-										name: nameInput.value,
-										returnable: selectedReturnable ? selectedReturnable.value === 'Так' : false,
-										
-									};
-						
-									// Відправляємо запит PUT на бекенд
-									fetch('http://3.71.13.232:5001/item', {
-										method: 'PUT',
-										headers: {
-											'Content-Type': 'application/json',
-										},
-										body: JSON.stringify(data),
-									})
-									.then(response => response.json())
-									.then(data => {
-										// Обробляємо відповідь від бекенду
-										const responseMessage = document.getElementById('response-message');
-										responseMessage.style.color = 'green';
-										responseMessage.textContent = 'Успішно додано майно до складу';
-									})
-									.catch(error => {
-										console.error('Помилка:', error);
-										const responseMessage = document.getElementById('response-message');
-										responseMessage.style.color = 'red';
-										responseMessage.textContent = 'Помилка при додаванні майна до складу';
-									});
-								});
-							});
-						</script>
-						
-						
-					</div><!--//app-card-body-->
-					
-				</div>
-				<br>
-				
-				<div class="tab-content" id="orders-table-tab-content">
-					<div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
-						<div class="app-card app-card-orders-table shadow-sm mb-5">
-							<div class="app-card-body">
-								<div class="table-responsive">
-									<h1 style="    margin-left: 25px; margin-top:20px;" class="app-page-title">Список майна</h1>
-									<table style="text-align: center;" class="table app-table-hover mb-0 text-left" id="items-table">
-										
-										<thead>
-											<tr>
+									
+									<div class="mb-3">
+										<label for="setting-input-3" class="form-label">Стать</label>
+										<div class="form-check">
+											<input type="radio" id="maleGender" name="sex" class="form-check-input" value="true" checked>
+											<label class="form-check-label" for="maleGender">Чоловічий</label>
+										</div>
+										<div class="form-check">
+											<input type="radio" id="femaleGender" name="sex" class="form-check-input" value="false">
+											<label class="form-check-label" for="femaleGender">Жіночий</label>
+										</div>
+									</div>
+									<div class="mb-3">
+										<label for="setting-input-6" class="form-label">Група забезпечення</label>
+										<select class="form-control" name="group" id="setting-input-6"></select>
+									</div>
+									<div class="form-group">
+										<label for="date">Дата додавання історичного військовослужбовця:</label>
+										<input type="date" class="form-control" id="date" required>
+									</div>
+									
+<script>
+    function loadRanks() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://3.71.13.232:5001/ranks', true);
 
-												<th class="cell">Назва</th>
-												<th class="cell">Інвентарне</th>
-												<th class="cell"></th>
-											</tr>
-										</thead>
-										<tbody>
-											<!-- Тут будуть відображені дані -->
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			
-				<!-- JavaScript-код для отримання та відображення даних -->
-				<script>
-				document.addEventListener('DOMContentLoaded', function () {
-    let selectedItemId; // Змінна для зберігання обраного ID елемента
+        xhr.onload = function () {
+            if (xhr.status == 200) {
+                var ranksText = xhr.responseText;
 
-    // Функція для обрання ID при натисканні на рядок таблиці
-    function selectItem(itemId) {
-        selectedItemId = itemId;
-        fetchItemDetails(itemId); // Викликаємо функцію для отримання деталей елемента
+                // Розпарсити як текст
+                var ranks = ranksText.split(',').map(function (rank) {
+                    return rank.replace(/["\[\]]/g, ''); // Видалити лапки та квадратні дужки
+                });
+
+                console.log('Ranks (Text):', ranks);
+                populateSelect(ranks, 'setting-input-4');
+                loadGroups();
+            } else {
+                console.error('Не вдалося отримати дані з сервера');
+            }
+        };
+
+        xhr.send();
     }
 
-    // Функція для отримання деталей елемента та оновлення таблиці
-    // Функція для отримання деталей елемента та оновлення таблиці
-function fetchItemDetails(itemId) {
-    fetch(`http://3.71.13.232:5001/item/${itemId}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-        .then(response => response.json())
-        .then(data => {
-            const sizesTableBody = document.querySelector('#myModal tbody');
-            sizesTableBody.innerHTML = ''; // Очищаємо попередні дані в таблиці
+    function loadGroups() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://3.71.13.232:5001/groups', true);
 
-            // Перевіряємо, чи є поле "sizes" та чи не пусте
-            if (data.sizes && Object.keys(data.sizes).length > 0) {
-                Object.keys(data.sizes).forEach(sizeId => {
-                    const sizeData = data.sizes[sizeId];
-                    const row = document.createElement('tr');
-                    row.innerHTML = `<td>${sizeData.size}</td><td>${sizeData.count}</td>`;
-                    sizesTableBody.appendChild(row);
-                });
-            } else {
-                // Якщо поле "sizes" відсутнє або пусте, виводимо порожню таблицю
-                const row = document.createElement('tr');
-                row.innerHTML = `<td colspan="2">Розміри відсутні</td>`;
-                sizesTableBody.appendChild(row);
+    xhr.onload = function () {
+        if (xhr.status == 200) {
+            var groupsText = xhr.responseText;
+
+            try {
+                // Розпарсити текст як JSON
+                var groups = JSON.parse(groupsText);
+
+                console.log('Groups (JSON):', groups);
+
+                // Отримати масив груп з об'єкту JSON
+                var groupsArray = Object.values(groups);
+
+                // Передати масив як опцію для select
+                populateSelect(groupsArray, 'setting-input-6');
+            } catch (error) {
+                console.error('Помилка розбору JSON:', error);
             }
-        })
-        .catch(error => {
-            console.error('Помилка:', error);
-        });
+        } else {
+            console.error('Не вдалося отримати дані з сервера');
+        }
+    };
+
+    xhr.send();
 }
 
 
-    // Функція для додавання розміру та кількості
-	window.addSize = function () {
-    const size = document.getElementById('size').value;
-    const count = document.getElementById('count').value;
-
-    // Відправити POST-запит на сервер
-    const requestBody = {};
-    requestBody[size.toLowerCase()] = parseInt(count);
-
-    fetch(`http://3.71.13.232:5001/item/${selectedItemId}`, {
-        method: 'POST', // Змінили метод на POST
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody),
-    })
-        .then(response => response.json())
-        .then(data => {
-            // Оновити таблицю з розмірами та кількостями
-            const sizesTableBody = document.querySelector('#myModal tbody');
-            const row = document.createElement('tr');
-            row.innerHTML = `<td>${size}</td><td>${count}</td>`;
-            sizesTableBody.appendChild(row);
-
-            // Оновити деталі елемента
-            fetchItemDetails(selectedItemId);
-        })
-        .catch(error => {
-            console.error('Помилка:', error);
+    function decodeUnicode(str) {
+        return str.replace(/\\u[\dA-Fa-f]{4}/g, function (match) {
+            return String.fromCharCode(parseInt(match.replace(/\\u/g, ''), 16));
         });
-};
-
-    const itemsTable = document.getElementById('items-table');
-
-    // Функція для запиту GET до сервера та оновлення таблиці
-    function fetchItems() {
-        fetch('http://3.71.13.232:5001/item', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then(response => response.json())
-            .then(data => {
-                // Очищаємо попередні дані в таблиці
-                itemsTable.querySelector('tbody').innerHTML = '';
-
-                // Додаємо нові дані до таблиці
-                data.forEach(item => {
-                    const row = document.createElement('tr');
-                    row.dataset.toggle = 'modal';
-                    row.dataset.target = '#myModal';
-                    row.addEventListener('click', () => selectItem(item.id));
-
-                    // ID
-                   // const idCell = document.createElement('td');
-                   /// idCell.textContent = `#${item.id}`;
-                   // row.appendChild(idCell);
-
-                    // Назва
-                    const nameCell = document.createElement('td');
-                    const nameSpan = document.createElement('span');
-                    nameSpan.classList.add('truncate');
-                    nameSpan.textContent = item.name;
-                    nameCell.appendChild(nameSpan);
-                    row.appendChild(nameCell);
-
-                    // Інвентарне
-                    const returnableCell = document.createElement('td');
-                    const badgeSpan = document.createElement('span');
-                    badgeSpan.classList.add('badge', item.returnable ? 'bg-danger' : 'bg-success');
-                    badgeSpan.textContent = item.returnable ? 'Так' : 'Ні';
-                    returnableCell.appendChild(badgeSpan);
-                    row.appendChild(returnableCell);
-
-                    // Додаємо рядок до таблиці
-                    itemsTable.querySelector('tbody').appendChild(row);
-                });
-            })
-            .catch(error => {
-                console.error('Помилка:', error);
-            });
     }
 
-    // Викликаємо функцію при завантаженні сторінки
-    fetchItems();
-});
+    function populateSelect(items, selectId) {
+    var select = document.getElementById(selectId);
 
-				</script>
-			
-				<!-- Модальне вікно для розмірів і кількостей -->
-				<div class="modal" id="myModal" tabindex="-1" role="dialog">
-					<div class="modal-dialog" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title">Розміри і Кількості</h5>
-								<!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button> -->
-							</div>
-							<div class="modal-body">
-								<!-- Додайте форму для введення розміру та кількості -->
-								<form id="addForm">
-									<div class="form-group">
-										<label for="size">Розмір:</label>
-										<input type="text" class="form-control" id="size" required>
+    select.innerHTML = '';
+
+    items.forEach(function (item, index) {
+        var option = document.createElement('option');
+        option.text = decodeUnicode(item);
+        option.value = index + 1;
+        select.add(option);
+    });
+}
+
+loadRanks();
+</script>
 									</div>
-									<div class="form-group">
-										<label for="count">Кількість:</label>
-										<input type="number" class="form-control" id="count" required>
-									</div>
-									<button type="button" style="margin-top:10px;" class="btn app-btn-primary" onclick="addSize()">Додати</button>
-								</form>
-								<table class="table">
-									<thead>
-										<tr>
-											<th>Розмір</th>
-											<th>Кількість</th>
-										</tr>
-									</thead>
-									<tbody>
-										<!-- Тут будуть відображені розміри та кількості -->
-									</tbody>
-								</table>
-												</div>
-												<div class="modal-footer">
-													<button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
-												</div>
-											</div>
-										</div>
-									</div>
+									<button type="submit" class="btn app-btn-primary" >Додати військовослужбовця</button>
+									<p style="color:green;" id="response-message"></p>
+							    </form>
+								<script>
+									document.addEventListener('DOMContentLoaded', function () {
+										const form = document.querySelector('.settings-form');
+										const responseMessage = document.getElementById('response-message');
 									
-									<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-									<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-									<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+										form.addEventListener('submit', function (event) {
+											event.preventDefault();
 									
+											const formData = new FormData(form);
+											const requestData = {};
 									
-						        </div><!--//table-responsive-->
-						       
-						    </div><!--//app-card-body-->		
+											formData.forEach((value, key) => {
+												if (key === 'rank' || key === 'group') {
+													requestData[key] = parseInt(value);
+												} else if (key === 'sex') {
+													requestData[key] = value === 'true';
+												} else {
+													requestData[key] = value;
+												}
+											});
+									
+											// Отримати значення дати
+											const dateValue = document.getElementById('date').value;
+											// Додати дату до об'єкта requestData
+											requestData['date'] = dateValue;
+									
+											const url = 'http://3.71.13.232:5001/history/serviceman';
+									
+											fetch(url, {
+												method: 'PUT',
+												headers: {
+													'Content-Type': 'application/json',
+												},
+												body: JSON.stringify(requestData),
+											})
+											.then(response => response.json())
+											.then(data => {
+												responseMessage.innerHTML = `Військовослужбовця успішно додано в систему.`;
+									
+												if (data && data.id) {
+													const viewLink = document.createElement('a');
+													viewLink.href = `smcurrent_history.html?id=${data.id}`;
+													viewLink.textContent = ' Переглянути його картку';
+													responseMessage.appendChild(viewLink);
+												}
+											})
+											.catch((error) => {
+												responseMessage.textContent = `Помилка: ${error.message || 'Невідома помилка'}`;
+												console.error('Помилка при виконанні запиту:', error);
+											});
+										});
+									});
+									</script>
+						    </div><!--//app-card-body-->
+						    
 						</div><!--//app-card-->
-						
-						
-			        </div><!--//tab-pane-->
-			        
-			      
-									</table>
-						        </div><!--//table-responsive-->
-						    </div><!--//app-card-body-->		
+	                </div>
+                </div><!--//row-->
+                
+							    </form>
+						    </div><!--//app-card-body-->						    
 						</div><!--//app-card-->
-			        </div><!--//tab-pane-->
-				</div><!--//tab-content-->
-	    <hr>
+	                </div>
+                </div><!--//row-->
+			    <hr class="my-4">
+		    </div><!--//container-fluid-->
+	    </div><!--//app-content-->
+	    
 	    <footer class="app-footer">
 		    <div class="container text-center py-3">
 		         <!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
-            <small class="copyright">Управління в ... області</small>
+            <small class="copyright">Управління ... області</small>
 		       
 		    </div>
 	    </footer><!--//app-footer-->

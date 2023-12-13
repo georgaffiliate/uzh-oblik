@@ -236,20 +236,21 @@
 	    
 	    <div class="app-content pt-3 p-md-3 p-lg-4">
 		    <div class="container-xl">			    
-			    <h1 class="app-page-title">Норма військовослужбовця</h1>
+			    <h1 class="app-page-title">Норми військовослужбовця</h1>
 			    <hr class="mb-4">
                 <div class="row g-4 settings-section">
 	                <div class="col-12 col-md-4">
-		                <h3 class="section-title"> <br>стать чоловіча, звання сержант, від 01.01.2022 до 02.02.2023</h3>
-		                <div class="section-intro"></div>
+		              
 	                </div>
-	                <div class="col-12 col-md-8">
+	                <div class="col-12 col-md-12">
 		                <div class="app-card app-card-settings shadow-sm p-4">
 						    
 						    <div class="app-card-body">
+								<h3>Додати норму</h3>
+								<br>
 							    <form class="settings-form">
 									<div class="mb-3">
-										<label for="setting-input-1" class="form-label">d<span class="ms-2" data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus"  data-bs-placement="top" data-bs-content="This is a Bootstrap popover example. You can use popover to provide extra info."><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+										<label for="setting-input-1" class="form-label">Стать<span class="ms-2" data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus"  data-bs-placement="top" data-bs-content="Стать для якої діє ця норма."><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 								  <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
 								  <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
 								  <circle cx="8" cy="4.5" r="1"/>
@@ -260,21 +261,31 @@
 										<label for="female"> Жінка</label><br>
 									</div>
 								
+									
+    <div class="mb-3">
+        <label for="from_rank" class="form-label">Від звання</label><br>
+        <select id="from_rank" name="from_rank" class="form-select">
+            <!-- Опції для вибору рангів будуть додані динамічно за допомогою JavaScript -->
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="to_rank" class="form-label">До звання</label><br>
+        <select id="to_rank" name="to_rank" class="form-select">
+            <!-- Опції для вибору рангів будуть додані динамічно за допомогою JavaScript -->
+        </select>
+    </div>
+	<div class="mb-3">
+        <label for="name" class="form-label">Назва норми</label><br>
+        <input type="text" id="name" name="name" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label for="reason" class="form-label">Підставa:</label><br>
+        <input type="text" id="reason" name="reason" class="form-control">
+    </div>
 									<div class="mb-3">
-										<label for="setting-input-1" class="form-label">Звання<span class="ms-2" data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus"  data-bs-placement="top" data-bs-content="This is a Bootstrap popover example. You can use popover to provide extra info."><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-								  <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-								  <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
-								  <circle cx="8" cy="4.5" r="1"/>
-								</svg></span></label><br>
-										<input type="checkbox" id="sergeant" name="rank" value="sergeant" class="rank-checkbox">
-										<label for="sergeant"> Сержант</label><br>
-										<input type="checkbox" id="captain" name="rank" value="captain" class="rank-checkbox">
-										<label for="captain"> Капітан</label><br>
-										<input type="checkbox" id="colonel" name="rank" value="colonel" class="rank-checkbox">
-										<label for="colonel"> Полковник</label><br>
-									</div>
-									<div class="mb-3">
-										<label for="startdate" class="form-label">Дата початку<span class="ms-2" data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus"  data-bs-placement="top" data-bs-content="Введіть дату початку служби"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+										<label for="startdate" class="form-label">Дата набуття чинності<span class="ms-2" data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus"  data-bs-placement="top" data-bs-content="Введіть дату початку служби"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 											<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
 											<path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
 											<circle cx="8" cy="4.5" r="1"/>
@@ -283,7 +294,7 @@
 										<input type="date" id="startdate" name="startdate">
 									</div>
 									<div class="mb-3">
-										<label for="enddate" class="form-label">Дата кінця<span class="ms-2" data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus"  data-bs-placement="top" data-bs-content="Введіть дату початку служби"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+										<label for="enddate" class="form-label">Дата кінця чинності<span class="ms-2" data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus"  data-bs-placement="top" data-bs-content="Введіть дату початку служби"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 											<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
 											<path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
 											<circle cx="8" cy="4.5" r="1"/>
@@ -294,66 +305,91 @@
 									<button type="submit" class="btn app-btn-primary">Додати норму</button>
 									<p style="color:green;" id="response-message"></p>
 								</form>
+								<div id="success-message" class="alert alert-success d-none" role="alert">
+									Норму успішно додано. Перейти на норму
+									<span id="norm-link"></span>
+								  </div>
+								  
 								<script>
-		document.addEventListener('DOMContentLoaded', function () {
+									document.addEventListener('DOMContentLoaded', function () {
     const form = document.querySelector('.settings-form');
     const responseMessage = document.getElementById('response-message');
 
-    form.addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        const formData = new FormData(form);
-        const genderData = formData.getAll('gender');
-        const rankData = formData.getAll('rank');
-        const startdate = formData.get('startdate');
-        const enddate = formData.get('enddate');
-
-        const requestData = {
-            sexes: genderData,
-            ranks: rankData,
-            to: enddate,
-            from: startdate,
-        };
-
-        const url = 'http://3.71.13.232:5001/norm';
-
-        fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(requestData),
-        })
+    // Отримання ранків з сервера
+    fetch('http://3.71.13.232:5001/ranks')
         .then(response => response.json())
-        .then(data => {
-            if (data && data.id && data.gender && data.gender.length > 0) {
-                // Відображення повідомлення про успішне додавання
-                responseMessage.innerHTML = `Військовослужбовця успішно додано в систему.`;
+        .then(rankData => {
+            // Додавання опцій для ранків у select елементи
+            const fromRankSelect = document.getElementById('from_rank');
+            const toRankSelect = document.getElementById('to_rank');
 
-                // Перевірка, чи є ідентифікатор в отриманих даних
-                if (data.id) {
-                    // Створення посилання "Переглянути його картку"
-                    const viewLink = document.createElement('a');
-                    viewLink.href = `smcurrent.html?id=${data.id}`;
-                    viewLink.textContent = ' Переглянути його картку';
+            rankData.forEach((rank, index) => {
+                const option = document.createElement('option');
+                option.value = index + 1; // Додавання 1, оскільки індексація починається з 0
+                option.textContent = rank;
 
-                    // Додавання посилання до повідомлення
-                    responseMessage.appendChild(viewLink);
-                }
-            } else {
-                responseMessage.textContent = `Норму успішно додано.`;
-            }
+                fromRankSelect.appendChild(option.cloneNode(true));
+                toRankSelect.appendChild(option);
+            });
         })
-        .catch((error) => {
-            responseMessage.textContent = `Помилка: ${error.message || 'Невідома помилка'}`;
-            console.error('Помилка при виконанні запиту:', error);
-            // Додайте код для відображення повідомлення про помилку користувачу тут
+        .catch(error => {
+            console.error('Помилка при отриманні ранків:', error);
         });
-    });
-});
 
+		form.addEventListener('submit', function (event) {
+    event.preventDefault();
 
-								</script>
+    const formData = new FormData(form);
+    const genderData = formData.getAll('gender').map(value => value === 'male');
+    const startdate = formData.get('startdate');
+    const enddate = formData.get('enddate');
+    const fromRank = parseInt(formData.get('from_rank'), 10); // Конвертуємо в ціле число
+    const toRank = parseInt(formData.get('to_rank'), 10); // Конвертуємо в ціле число
+    const name = formData.get('name');
+    const reason = formData.get('reason');
+
+    const requestData = {
+        genders: genderData,
+        to: enddate,
+        from: startdate,
+        from_rank: fromRank,
+        to_rank: toRank,
+        name: name,
+        reason: reason,
+    };
+
+    const url = 'http://3.71.13.232:5001/norm';
+									
+											fetch(url, {
+												method: 'PUT',
+												headers: {
+													'Content-Type': 'application/json',
+												},
+												body: JSON.stringify(requestData),
+											})
+											.then(response => response.json())
+											.then(data => {
+												if (data && data.id && data.gender && data.gender.length > 0) {
+													responseMessage.innerHTML = `Військовослужбовця успішно додано в систему.`;
+									
+													if (data.id) {
+														const viewLink = document.createElement('a');
+														viewLink.href = `smcurrent.html?id=${data.id}`;
+														viewLink.textContent = ' Переглянути його картку';
+														responseMessage.appendChild(viewLink);
+													}
+												} else {
+													responseMessage.innerHTML = `Норму успішно додано.<br><a href="norm_list.html">Переглянути всі норми</a>`;
+												}
+											})
+											.catch((error) => {
+												responseMessage.textContent = `Помилка: ${error.message || 'Невідома помилка'}`;
+												console.error('Помилка при виконанні запиту:', error);
+												// Додайте код для відображення повідомлення про помилку користувачу тут
+											});
+										});
+									});
+									</script>
 						    </div><!--//app-card-body-->
 						    
 						</div><!--//app-card-->
