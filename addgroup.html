@@ -315,7 +315,7 @@
 
             rankData.forEach((rank, index) => {
                 const option = document.createElement('option');
-                option.value = index + 1; // Додавання 1, оскільки індексація починається з 0
+                option.value = index; // Додавання 1, оскільки індексація починається з 0
                 option.textContent = rank;
 
                 fromRankSelect.appendChild(option.cloneNode(true));
