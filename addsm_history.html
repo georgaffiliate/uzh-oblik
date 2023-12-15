@@ -344,14 +344,17 @@ loadRanks();
 											const requestData = {};
 									
 											formData.forEach((value, key) => {
-												if (key === 'rank' || key === 'group') {
-													requestData[key] = parseInt(value);
-												} else if (key === 'sex') {
-													requestData[key] = value === 'true';
-												} else {
-													requestData[key] = value;
-												}
-											});
+    if (key === 'rank' || key === 'group') {
+        const selectElement = document.getElementById(`setting-input-${key === 'rank' ? 4 : 6}`);
+        const selectedIndex = value;
+        const selectedOption = selectElement.options[selectedIndex - 1];
+        requestData[key] = selectedOption ? selectedOption.text : null;
+    } else if (key === 'sex') {
+        requestData[key] = value === 'true';
+    } else {
+        requestData[key] = value;
+    }
+});
 									
 											// Отримати значення дати
 											const dateValue = document.getElementById('date').value;

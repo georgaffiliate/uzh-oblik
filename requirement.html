@@ -274,58 +274,71 @@
 					    <div class="app-card app-card-orders-table shadow-sm mb-5">
 						    <div class="app-card-body">
 							    <div class="table-responsive">
-							        <table class="table app-table-hover mb-0 text-left">
+									<form style="margin: 15px;" id="dateForm">
+										<label for="date">Виберіть дату:</label>
+										<input type="date" id="date" name="date" required><br>
+										<button type="button" class="btn app-btn-primary mx-auto" onclick="sendRequest()">Відправити</button>
+									</form>
+							        <table style="text-align:center;" class="table app-table-hover mb-0 text-left" id="dataTable">
 										<thead>
 											<tr>
-												<th class="cell">ID</th>
 												<th class="cell">Назва</th>
-												<th class="cell">Термін використання у днях</th>
-												<th class="cell">Підлягає поверненню?</th>
-												
-												
+												<th class="cell">Розмір</th>
+												<th class="cell">Інвентарне</th>
 												<th class="cell"></th>
 											</tr>
 										</thead>
 										<tbody>
-	
+											<!-- Table body will be populated dynamically -->
 										</tbody>
 									</table>
+								
 									<script>
-				document.addEventListener('DOMContentLoaded', function () {
-    const url = 'http://3.71.13.232:5001/item';
+										function sendRequest() {
+											// Отримуємо значення дати з форми
+											const selectedDate = document.getElementById('date').value;
+								
+											// Формуємо URL для HTTP-запиту
+											const url = `http://3.71.13.232:5001/requirements?to=${selectedDate}`;
+								
+											// Виконуємо HTTP-запит за допомогою Fetch
+											fetch(url)
+												.then(response => response.json())
+												.then(data => updateTable(data))
+												.catch(error => console.error('Error:', error));
+										}
+								
+										function updateTable(responseData) {
+    const dataTable = document.getElementById('dataTable');
+    const tbody = dataTable.querySelector('tbody');
 
-    fetch(url, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Отримані дані:', data);
+    // Очищаємо попередні дані в табличці
+    tbody.innerHTML = '';
 
-        // Отримати посилання на тіло таблиці
-        const tableBody = document.querySelector('.table tbody');
+    // Додаємо нові дані до таблички
+    responseData.forEach(item => {
+        // Отримуємо дані про розміри (sizes) з об'єкту item
+        const sizesData = item.sizes;
 
-        // Пройтися по отриманим даним і додати їх у таблицю
-        data.forEach(item => {
+        // Перевіряємо, чи є розміри (sizes) в item
+        if (sizesData) {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td class="cell">#${item.id}</td>
-                <td class="cell"><span class="truncate">${item.name}</span></td>
-                <td class="cell">${item.term}</td>
-                <td class="cell"><span class="badge bg-${item.returnable ? 'danger' : 'success'}">${item.returnable ? 'Так' : 'Ні'}</span></td>
+                <td>${item.item.name}</td>
+                <td>
+                    ${Object.keys(sizesData).map(sizeKey => `${sizeKey} - ${sizesData[sizeKey]}`).join('<br>')}
+                </td>
+				<td>
+                    <span class="badge ${item.item.returnable ? 'bg-success' : 'bg-danger'}">
+                        ${item.item.returnable ? 'Так' : 'Ні'}
+                    </span>
+                </td>
+                <td></td>
             `;
-            tableBody.appendChild(row);
-        });
-    })
-    .catch((error) => {
-        console.error('Помилка при виконанні запиту:', error);
+            tbody.appendChild(row);
+        }
     });
-});
-
-
-
+}
 									</script>
 						        </div><!--//table-responsive-->
 						       
