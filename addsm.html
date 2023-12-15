@@ -37,13 +37,13 @@
 			        </div><!--//col-->
 		            <div class="app-search-box col">
 		                <form class="app-search-form">   
-							<input type="text" placeholder="Search..." name="search" class="form-control search-input">
+							<input type="text" placeholder="Пошук..." name="search" class="form-control search-input">
 							<button type="submit" class="btn search-btn btn-primary" value="Search"><i class="fa-solid fa-magnifying-glass"></i></button> 
 				        </form>
 		            </div><!--//app-search-box-->
 		            
 		            <div class="app-utilities col-auto">
-			            <div class="app-utility-item app-notifications-dropdown dropdown">    
+			            <div style="display: none;" class="app-utility-item app-notifications-dropdown dropdown">    
 				            <a class="dropdown-toggle no-toggle-arrow" id="notifications-dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" title="Notifications">
 					            <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
 					            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bell icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -131,23 +131,13 @@
 															
 							</div><!--//dropdown-menu-->					        
 				        </div><!--//app-utility-item-->
-			            <div class="app-utility-item">
-				            <a href="settings.html" title="Settings">
-					            <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-					            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-gear icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="M8.837 1.626c-.246-.835-1.428-.835-1.674 0l-.094.319A1.873 1.873 0 0 1 4.377 3.06l-.292-.16c-.764-.415-1.6.42-1.184 1.185l.159.292a1.873 1.873 0 0 1-1.115 2.692l-.319.094c-.835.246-.835 1.428 0 1.674l.319.094a1.873 1.873 0 0 1 1.115 2.693l-.16.291c-.415.764.42 1.6 1.185 1.184l.292-.159a1.873 1.873 0 0 1 2.692 1.116l.094.318c.246.835 1.428.835 1.674 0l.094-.319a1.873 1.873 0 0 1 2.693-1.115l.291.16c.764.415 1.6-.42 1.184-1.185l-.159-.291a1.873 1.873 0 0 1 1.116-2.693l.318-.094c.835-.246.835-1.428 0-1.674l-.319-.094a1.873 1.873 0 0 1-1.115-2.692l.16-.292c.415-.764-.42-1.6-1.185-1.184l-.291.159A1.873 1.873 0 0 1 8.93 1.945l-.094-.319zm-2.633-.283c.527-1.79 3.065-1.79 3.592 0l.094.319a.873.873 0 0 0 1.255.52l.292-.16c1.64-.892 3.434.901 2.54 2.541l-.159.292a.873.873 0 0 0 .52 1.255l.319.094c1.79.527 1.79 3.065 0 3.592l-.319.094a.873.873 0 0 0-.52 1.255l.16.292c.893 1.64-.902 3.434-2.541 2.54l-.292-.159a.873.873 0 0 0-1.255.52l-.094.319c-.527 1.79-3.065 1.79-3.592 0l-.094-.319a.873.873 0 0 0-1.255-.52l-.292.16c-1.64.893-3.433-.902-2.54-2.541l.159-.292a.873.873 0 0 0-.52-1.255l-.319-.094c-1.79-.527-1.79-3.065 0-3.592l.319-.094a.873.873 0 0 0 .52-1.255l-.16-.292c-.892-1.64.902-3.433 2.541-2.54l.292.159a.873.873 0 0 0 1.255-.52l.094-.319z"/>
-  <path fill-rule="evenodd" d="M8 5.754a2.246 2.246 0 1 0 0 4.492 2.246 2.246 0 0 0 0-4.492zM4.754 8a3.246 3.246 0 1 1 6.492 0 3.246 3.246 0 0 1-6.492 0z"/>
-</svg>
-					        </a>
-					    </div><!--//app-utility-item-->
+			            
 			            
 			            <div class="app-utility-item app-user-dropdown dropdown">
 				            <a class="dropdown-toggle" id="user-dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><img src="assets/images/user.png" alt="user profile"></a>
 				            <ul class="dropdown-menu" aria-labelledby="user-dropdown-toggle">
-								<li><a class="dropdown-item" href="account.html">Account</a></li>
-								<li><a class="dropdown-item" href="settings.html">Settings</a></li>
-								<li><hr class="dropdown-divider"></li>
-								<li><a class="dropdown-item" href="login.html">Log Out</a></li>
+							
+								<li><a class="dropdown-item" href="login.html">Вийти</a></li>
 							</ul>
 			            </div><!--//app-user-dropdown--> 
 		            </div><!--//app-utilities-->
@@ -207,222 +197,204 @@
     </header><!--//app-header-->
     
     <div class="app-wrapper">
-	    
 	    <div class="app-content pt-3 p-md-3 p-lg-4">
-		    <div class="container-xl">			    
-			    <h1 class="app-page-title">Сторінки</h1>
-			    <hr class="mb-4">
-                <div class="row g-4 settings-section">
-	                <div class="col-12 col-md-4">
-		                <h3 class="section-title">Додати військовослужбовця в систему</h3>
-		                <div class="section-intro">Тут ви повинні внести дані військовослужбовця якого хочете додати в систему</div>
-	                </div>
-	                <div class="col-12 col-md-8">
-		                <div class="app-card app-card-settings shadow-sm p-4">
-						    
-						    <div class="app-card-body">
-							    <form class="settings-form">
-								    <div class="mb-3">
-									    <label for="setting-input-1" class="form-label">Ім'я<span class="ms-2" data-bs-container="body" data-bs-toggle="popover" data-bs-trigger="hover focus"  data-bs-placement="top" data-bs-content="This is a Bootstrap popover example. You can use popover to provide extra info."><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-  <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
-  <circle cx="8" cy="4.5" r="1"/>
-</svg></span></label>
-									    <input type="text" class="form-control" name="name" id="setting-input-1" value="Іван" required>
-									</div>
-									<div class="mb-3">
-									    <label for="setting-input-2" class="form-label">Прізвище</label>
-									    <input type="text" class="form-control" name="surname"  id="setting-input-2" value="Іванов" required>
-									</div>
-								    <div class="mb-3">
-									    <label for="setting-input-3" class="form-label">По-батькові</label>
-									    <input type="text" class="form-control" name="patronymic"  id="setting-input-3" value="Іванович">
-									</div>
-									<div class="mb-3">
-										<label for="setting-input-3" class="form-label">Звання</label>
-										<select style="min-height: 45px;" class="form-control" name="rank" id="setting-input-4"></select>
-									</div>
-									
-
-									
-							
-									
-									<div class="mb-3">
-										<label for="setting-input-3" class="form-label">Стать</label>
-										<div class="form-check">
-											<input type="radio" id="maleGender" name="sex" class="form-check-input" value="true" checked>
-											<label class="form-check-label" for="maleGender">Чоловічий</label>
+			<div class="container-xl">			    
+				<h1 class="app-page-title">Додати військовослужбовця</h1>
+				<hr class="mb-12">
+				<div class="row g-4 settings-section">
+					<div class="col-12 col-md-8 offset-md-2">
+						<div class="app-card app-card-settings shadow-sm p-4">
+							<div class="app-card-body">
+								<h3 class="section-title text-center mb-3">Додати військовослужбовця в систему</h3>
+								<div class="section-intro text-center mb-4">Тут ви повинні внести дані військовослужбовця, якого хочете додати в систему.</div>
+		
+								<form class="settings-form">
+									<div class="row">
+										<div class="col-md-6 mb-3">
+											<label for="setting-input-2" class="form-label">Ім'я</label>
+											<input type="text" class="form-control" name="name" id="setting-input-1" value="Іван" required>
 										</div>
-										<div class="form-check">
-											<input type="radio" id="femaleGender" name="sex" class="form-check-input" value="false">
-											<label class="form-check-label" for="femaleGender">Жіночий</label>
+										<div class="col-md-6 mb-3">
+											<label for="setting-input-2" class="form-label">Прізвище</label>
+											<input type="text" class="form-control" name="surname" id="setting-input-2" value="Іванов" required>
+										</div>
+										<div class="col-md-6 mb-3">
+											<label for="setting-input-3" class="form-label">По-батькові</label>
+											<input type="text" class="form-control" name="patronymic" id="setting-input-3" value="Іванович">
+										</div>
+										<div class="col-md-6 mb-3">
+											<label for="setting-input-4" class="form-label">Звання</label>
+											<select style="min-height: 45px;" class="form-control" name="rank" id="setting-input-4"></select>
+										</div>
+										<div class="col-md-6 mb-3">
+											<label for="setting-input-5" class="form-label">Стать</label>
+											<div class="form-check">
+												<input type="radio" id="maleGender" name="sex" class="form-check-input" value="true" checked>
+												<label class="form-check-label" for="maleGender">Чоловічий</label>
+											</div>
+											<div class="form-check">
+												<input type="radio" id="femaleGender" name="sex" class="form-check-input" value="false">
+												<label class="form-check-label" for="femaleGender">Жіночий</label>
+											</div>
+										</div>
+										<div class="col-md-6 mb-3">
+											<label for="setting-input-6" class="form-label">Група забезпечення</label>
+											<select class="form-control" name="group" id="setting-input-6"></select>
 										</div>
 									</div>
-									<div class="mb-3">
-										<label for="setting-input-6" class="form-label">Група забезпечення</label>
-										<select class="form-control" name="group" id="setting-input-6"></select>
-									</div>
-									
-<script>
-    function loadRanks() {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://3.71.13.232:5001/ranks', true);
-
-        xhr.onload = function () {
-            if (xhr.status == 200) {
-                var ranksText = xhr.responseText;
-
-                // Розпарсити як текст
-                var ranks = ranksText.split(',').map(function (rank) {
-                    return rank.replace(/["\[\]]/g, ''); // Видалити лапки та квадратні дужки
-                });
-
-                console.log('Ranks (Text):', ranks);
-                populateSelect(ranks, 'setting-input-4');
-                loadGroups();
-            } else {
-                console.error('Не вдалося отримати дані з сервера');
-            }
-        };
-
-        xhr.send();
-    }
-
-    function loadGroups() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://3.71.13.232:5001/groups', true);
-
-    xhr.onload = function () {
-        if (xhr.status == 200) {
-            var groupsText = xhr.responseText;
-
-            try {
-                // Розпарсити текст як JSON
-                var groups = JSON.parse(groupsText);
-
-                console.log('Groups (JSON):', groups);
-
-                // Отримати масив груп з об'єкту JSON
-                var groupsArray = Object.values(groups);
-
-                // Передати масив як опцію для select
-                populateSelect(groupsArray, 'setting-input-6');
-            } catch (error) {
-                console.error('Помилка розбору JSON:', error);
-            }
-        } else {
-            console.error('Не вдалося отримати дані з сервера');
-        }
-    };
-
-    xhr.send();
-}
-
-
-    function decodeUnicode(str) {
-        return str.replace(/\\u[\dA-Fa-f]{4}/g, function (match) {
-            return String.fromCharCode(parseInt(match.replace(/\\u/g, ''), 16));
-        });
-    }
-
-    function populateSelect(items, selectId) {
-    var select = document.getElementById(selectId);
-
-    select.innerHTML = '';
-
-    items.forEach(function (item, index) {
-        var option = document.createElement('option');
-        option.text = decodeUnicode(item);
-        option.value = index + 1;
-        select.add(option);
-    });
-}
-
-loadRanks();
-</script>
-									</div>
-									<button type="submit" class="btn app-btn-primary" >Додати військовослужбовця</button>
+									<button type="submit" class="btn app-btn-primary mx-auto">Додати військовослужбовця</button>
 									<p style="color:green;" id="response-message"></p>
-							    </form>
-								<script>
-								document.addEventListener('DOMContentLoaded', function () {
-    const form = document.querySelector('.settings-form');
-    const responseMessage = document.getElementById('response-message');
-
-	form.addEventListener('submit', function (event) {
-    event.preventDefault();
-
-    const formData = new FormData(form);
-    const requestData = {};
-
-    formData.forEach((value, key) => {
-        if (key === 'rank' || key === 'group') {
-            // Перетворити значення rank та group в цілі числа
-            requestData[key] = parseInt(value);
-        } else if (key === 'sex') {
-            requestData[key] = value === 'true';
-        } else {
-            requestData[key] = value;
-        }
-    });
-
-    // Отримати значення вибраного елемента select для групи
-    const groupSelect = document.getElementById('setting-input-6');
-    const selectedGroupText = groupSelect.options[groupSelect.selectedIndex].text;
-
-    // Додати текст вибраної групи до об'єкта requestData
-    requestData['group'] = selectedGroupText;
-
-    const url = 'http://3.71.13.232:5001/serviceman';
-
-    fetch(url, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData),
-    })
-											.then(response => response.json())
-.then(data => {
-    // Відображення повідомлення про успішне додавання
-    responseMessage.innerHTML = `Військовослужбовця успішно додано в систему.`;
-
-    // Перевірка, чи є ідентифікатор в отриманих даних
-    if (data && data.id) {
-        // Створення посилання "Переглянути його картку"
-        const viewLink = document.createElement('a');
-        viewLink.href = `smcurrent.html?id=${data.id}`;
-        viewLink.textContent = ' Переглянути його картку';
-
-        // Додавання посилання до повідомлення
-        responseMessage.appendChild(viewLink);
-    }
-
-    // Додайте код для додаткової обробки відповіді тут
-})
-											.catch((error) => {
-												responseMessage.textContent = `Помилка: ${error.message || 'Невідома помилка'}`;
-												console.error('Помилка при виконанні запиту:', error);
-												// Додайте код для відображення повідомлення про помилку користувачу тут
-											});
-										});
-									});
-								</script>
-						    </div><!--//app-card-body-->
-						    
+								</form>
+					        </div><!--//app-card-body-->
 						</div><!--//app-card-->
-	                </div>
-                </div><!--//row-->
-                
-							    </form>
-						    </div><!--//app-card-body-->						    
-						</div><!--//app-card-->
-	                </div>
-                </div><!--//row-->
+					</div>
+				</div><!--//row-->
+			</div><!--//container-xl-->
+		</div>
 			    <hr class="my-4">
 		    </div><!--//container-fluid-->
 	    </div><!--//app-content-->
-	    
+	    <script>
+			document.addEventListener('DOMContentLoaded', function () {
+const form = document.querySelector('.settings-form');
+const responseMessage = document.getElementById('response-message');
+
+form.addEventListener('submit', function (event) {
+event.preventDefault();
+
+const formData = new FormData(form);
+const requestData = {};
+
+formData.forEach((value, key) => {
+if (key === 'rank' || key === 'group') {
+// Перетворити значення rank та group в цілі числа
+requestData[key] = parseInt(value);
+} else if (key === 'sex') {
+requestData[key] = value === 'true';
+} else {
+requestData[key] = value;
+}
+});
+
+// Отримати значення вибраного елемента select для групи
+const groupSelect = document.getElementById('setting-input-6');
+const selectedGroupText = groupSelect.options[groupSelect.selectedIndex].text;
+
+// Додати текст вибраної групи до об'єкта requestData
+requestData['group'] = selectedGroupText;
+
+const url = 'http://3.71.13.232:5001/serviceman';
+
+fetch(url, {
+method: 'PUT',
+headers: {
+'Content-Type': 'application/json',
+},
+body: JSON.stringify(requestData),
+})
+						.then(response => response.json())
+.then(data => {
+// Відображення повідомлення про успішне додавання
+responseMessage.innerHTML = `Військовослужбовця успішно додано в систему.`;
+
+// Перевірка, чи є ідентифікатор в отриманих даних
+if (data && data.id) {
+// Створення посилання "Переглянути його картку"
+const viewLink = document.createElement('a');
+viewLink.href = `smcurrent.html?id=${data.id}`;
+viewLink.textContent = ' Переглянути його картку';
+
+// Додавання посилання до повідомлення
+responseMessage.appendChild(viewLink);
+}
+
+// Додайте код для додаткової обробки відповіді тут
+})
+						.catch((error) => {
+							responseMessage.textContent = `Помилка: ${error.message || 'Невідома помилка'}`;
+							console.error('Помилка при виконанні запиту:', error);
+							// Додайте код для відображення повідомлення про помилку користувачу тут
+						});
+					});
+				});
+			</script>
+			<script>
+				function loadRanks() {
+					var xhr = new XMLHttpRequest();
+					xhr.open('GET', 'http://3.71.13.232:5001/ranks', true);
+			
+					xhr.onload = function () {
+						if (xhr.status == 200) {
+							var ranksText = xhr.responseText;
+			
+							// Розпарсити як текст
+							var ranks = ranksText.split(',').map(function (rank) {
+								return rank.replace(/["\[\]]/g, ''); // Видалити лапки та квадратні дужки
+							});
+			
+							console.log('Ranks (Text):', ranks);
+							populateSelect(ranks, 'setting-input-4');
+							loadGroups();
+						} else {
+							console.error('Не вдалося отримати дані з сервера');
+						}
+					};
+			
+					xhr.send();
+				}
+			
+				function loadGroups() {
+				var xhr = new XMLHttpRequest();
+				xhr.open('GET', 'http://3.71.13.232:5001/groups', true);
+			
+				xhr.onload = function () {
+					if (xhr.status == 200) {
+						var groupsText = xhr.responseText;
+			
+						try {
+							// Розпарсити текст як JSON
+							var groups = JSON.parse(groupsText);
+			
+							console.log('Groups (JSON):', groups);
+			
+							// Отримати масив груп з об'єкту JSON
+							var groupsArray = Object.values(groups);
+			
+							// Передати масив як опцію для select
+							populateSelect(groupsArray, 'setting-input-6');
+						} catch (error) {
+							console.error('Помилка розбору JSON:', error);
+						}
+					} else {
+						console.error('Не вдалося отримати дані з сервера');
+					}
+				};
+			
+				xhr.send();
+			}
+			
+			
+				function decodeUnicode(str) {
+					return str.replace(/\\u[\dA-Fa-f]{4}/g, function (match) {
+						return String.fromCharCode(parseInt(match.replace(/\\u/g, ''), 16));
+					});
+				}
+			
+				function populateSelect(items, selectId) {
+				var select = document.getElementById(selectId);
+			
+				select.innerHTML = '';
+			
+				items.forEach(function (item, index) {
+					var option = document.createElement('option');
+					option.text = decodeUnicode(item);
+					option.value = index + 1;
+					select.add(option);
+				});
+			}
+			
+			loadRanks();
+			</script>
 	    <footer class="app-footer">
 		    <div class="container text-center py-3">
 		         <!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
