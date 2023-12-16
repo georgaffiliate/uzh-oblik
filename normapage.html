@@ -252,20 +252,34 @@
 								.then(data => {
 									// Отримання контейнера для інформації про норму
 									const normTitle = document.getElementById('normTitle');
-									
+						
 									// Оновлення текстового вмісту з назвою норми
 									normTitle.innerText = `Норма військовослужбовця: ${data.name}`;
-									
+						
 									// Отримання контейнера для інформації про користувача
 									const userInfo = document.getElementById('userInfo');
 						
 									// Визначення статі на основі гендера
 									const mapBooleanToName = bool => (bool ? 'чоловіча' : 'жіноча');
-const genderText = data.genders.map(mapBooleanToName).join(', ');
-
+									const genderText = data.genders.map(mapBooleanToName).join(', ');
+						
 									// Оновлення текстового вмісту з отриманими даними
-									userInfo.innerText = `стать: ${genderText}, звання: ${data.from_rank} до ${data.to_rank}, період: з ${data.from_date} ${data.to_date ? 'до ' + data.to_date : ''}`;
-									
+									const ranksApiUrl = 'http://3.71.13.232:5001/ranks';
+						
+									// Виконання гет-запиту для отримання списку рангів
+									fetch(ranksApiUrl)
+										.then(response => response.json())
+										.then(ranks => {
+											const fromRankText = getRankText(data.from_rank, ranks);
+											const toRankText = getRankText(data.to_rank, ranks);
+						
+											// Форматування дат from_date та to_date
+											const formattedFromDate = formatDate(data.from_date);
+											const formattedToDate = data.to_date ? formatDate(data.to_date) : '';
+						
+											userInfo.innerText = `стать: ${genderText}, звання: ${fromRankText} до ${toRankText}, період: з ${formattedFromDate} ${formattedToDate ? 'до ' + formattedToDate : ''}`;
+										});
+						
 									// Отримання контейнера для груп
 									const groupContainer = document.getElementById('groupContainer');
 						
@@ -295,12 +309,29 @@ const genderText = data.genders.map(mapBooleanToName).join(', ');
 										cell1.innerHTML = item.item.name;    // Назва речі
 										cell2.innerHTML = item.count;        // Кількість
 										cell3.innerHTML = (item.term / 365).toFixed(2); // Поділити term на 365 та обмежити до двох знаків після коми
-        // Строк носіння
+										// Строк носіння
 										cell4.innerHTML = item.item.returnable ? 'Так' : 'Ні'; // Інвентарне
 									});
 								})
 								.catch(error => console.error('Помилка:', error));
+						
+							// Функція для отримання текстового вигляду рангу з числового значення
+							function getRankText(rankNumber, ranks) {
+								// ranks - це масив рангів, який ви отримали з сервера
+								const rankText = ranks[rankNumber]; // Звернення до індексу напряму, оскільки ранги починаються з 0
+								return rankText || `Unknown Rank (${rankNumber})`;
+							}
+						
+							// Функція для форматування дати в потрібний вигляд (DD.MM.YYYY)
+							function formatDate(dateString) {
+								const date = new Date(dateString);
+								const day = ('0' + date.getDate()).slice(-2);
+								const month = ('0' + (date.getMonth() + 1)).slice(-2);
+								const year = date.getFullYear();
+								return `${day}.${month}.${year}`;
+							}
 						</script>
+						
 					</div><!--//table-responsive-->
 				   
 				</div>
@@ -431,6 +462,7 @@ const genderText = data.genders.map(mapBooleanToName).join(', ');
                 // Перезавантажити сторінку після успішної відправки
                 window.location.reload();
             } else {
+				window.location.reload()
                 console.error('Помилка відправлення даних на сервер:', xhr.status, xhr.statusText);
 				//window.location.reload();
             }

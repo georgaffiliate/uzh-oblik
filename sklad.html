@@ -254,7 +254,8 @@
 										// Обробляємо відповідь від бекенду
 										const responseMessage = document.getElementById('response-message');
 										responseMessage.style.color = 'green';
-										responseMessage.textContent = 'Успішно додано майно до складу';
+										responseMessage.innerHTML = 'Успішно додано майно до складу<br><a href="sklad.html">Оновити сторінку</a>';
+
 									})
 									.catch(error => {
 										console.error('Помилка:', error);

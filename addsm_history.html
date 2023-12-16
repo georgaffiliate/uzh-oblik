@@ -334,59 +334,60 @@ loadRanks();
 							    </form>
 								<script>
 									document.addEventListener('DOMContentLoaded', function () {
-										const form = document.querySelector('.settings-form');
-										const responseMessage = document.getElementById('response-message');
-									
-										form.addEventListener('submit', function (event) {
-											event.preventDefault();
-									
-											const formData = new FormData(form);
-											const requestData = {};
-									
-											formData.forEach((value, key) => {
-    if (key === 'rank' || key === 'group') {
-        const selectElement = document.getElementById(`setting-input-${key === 'rank' ? 4 : 6}`);
-        const selectedIndex = value;
-        const selectedOption = selectElement.options[selectedIndex - 1];
-        requestData[key] = selectedOption ? selectedOption.text : null;
-    } else if (key === 'sex') {
-        requestData[key] = value === 'true';
-    } else {
-        requestData[key] = value;
-    }
+    const form = document.querySelector('.settings-form');
+    const responseMessage = document.getElementById('response-message');
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        const requestData = {};
+
+        formData.forEach((value, key) => {
+            if (key === 'rank' || key === 'group') {
+                const selectElement = document.getElementById(`setting-input-${key === 'rank' ? 4 : 6}`);
+                const selectedIndex = value;
+                const selectedOption = selectElement.options[selectedIndex - 1];
+                requestData[key] = selectedOption ? parseInt(selectedOption.value, 10) : null; // Перетворення рядка в число
+            } else if (key === 'sex') {
+                requestData[key] = value === 'true';
+            } else {
+                requestData[key] = value;
+            }
+        });
+
+        // Отримати значення дати
+        const dateValue = document.getElementById('date').value;
+        // Додати дату до об'єкта requestData
+        requestData['date'] = dateValue;
+
+        const url = 'http://3.71.13.232:5001/history/serviceman';
+
+        fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData),
+        })
+        .then(response => response.json())
+        .then(data => {
+            responseMessage.innerHTML = `Військовослужбовця успішно додано в систему.`;
+
+            if (data && data.id) {
+                const viewLink = document.createElement('a');
+                viewLink.href = `smcurrent_history.html?id=${data.id}`;
+                viewLink.textContent = ' Переглянути його картку';
+                responseMessage.appendChild(viewLink);
+            }
+        })
+        .catch((error) => {
+            responseMessage.textContent = `Помилка: ${error.message || 'Невідома помилка'}`;
+            console.error('Помилка при виконанні запиту:', error);
+        });
+    });
 });
-									
-											// Отримати значення дати
-											const dateValue = document.getElementById('date').value;
-											// Додати дату до об'єкта requestData
-											requestData['date'] = dateValue;
-									
-											const url = 'http://3.71.13.232:5001/history/serviceman';
-									
-											fetch(url, {
-												method: 'PUT',
-												headers: {
-													'Content-Type': 'application/json',
-												},
-												body: JSON.stringify(requestData),
-											})
-											.then(response => response.json())
-											.then(data => {
-												responseMessage.innerHTML = `Військовослужбовця успішно додано в систему.`;
-									
-												if (data && data.id) {
-													const viewLink = document.createElement('a');
-													viewLink.href = `smcurrent_history.html?id=${data.id}`;
-													viewLink.textContent = ' Переглянути його картку';
-													responseMessage.appendChild(viewLink);
-												}
-											})
-											.catch((error) => {
-												responseMessage.textContent = `Помилка: ${error.message || 'Невідома помилка'}`;
-												console.error('Помилка при виконанні запиту:', error);
-											});
-										});
-									});
+
 									</script>
 						    </div><!--//app-card-body-->
 						    
