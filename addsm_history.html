@@ -321,7 +321,7 @@
     items.forEach(function (item, index) {
         var option = document.createElement('option');
         option.text = decodeUnicode(item);
-        option.value = index + 1;
+        option.value = index;
         select.add(option);
     });
 }
