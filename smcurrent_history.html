@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"> 
 <head>
+	
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 											<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 											<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -41,13 +42,13 @@
 			        </div><!--//col-->
 		            <div class="app-search-box col">
 		                <form class="app-search-form">   
-							<input type="text" placeholder="Пошук..." name="search" class="form-control search-input">
-							<button type="submit" class="btn search-btn btn-primary" value="Search"><i class="fa-solid fa-magnifying-glass"></i></button> 
+							<input type="text" placeholder="Пошук" name="search" class="form-control search-input">
+							<button type="submit" class="btn search-btn app-btn-primary" value="Search"><i class="fa-solid fa-magnifying-glass"></i></button> 
 				        </form>
 		            </div><!--//app-search-box-->
 		            
 		            <div class="app-utilities col-auto">
-			            <div style="display: none;" class="app-utility-item app-notifications-dropdown dropdown">    
+			            <div style="display:none;" class="app-utility-item app-notifications-dropdown dropdown">    
 				            <a class="dropdown-toggle no-toggle-arrow" id="notifications-dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" title="Notifications">
 					            <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
 					            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bell icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -134,11 +135,13 @@
 						        </div>
 															
 							</div><!--//dropdown-menu-->					        
-				        </div><!--//app-utility-item--> 
+				        </div><!--//app-utility-item-->
+			           
+			            
 			            <div class="app-utility-item app-user-dropdown dropdown">
 				            <a class="dropdown-toggle" id="user-dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"><img src="assets/images/user.png" alt="user profile"></a>
 				            <ul class="dropdown-menu" aria-labelledby="user-dropdown-toggle">
-
+								
 								<li><a class="dropdown-item" href="login.html">Вийти</a></li>
 							</ul>
 			            </div><!--//app-user-dropdown--> 
@@ -202,7 +205,7 @@
 	    
 	    <div class="app-content pt-3 p-md-3 p-lg-4">
 		    <div class="container-xl">			    
-			    <h1 class="app-page-title">Список майна військовослужбовця </h1>
+			    <h1 style="color:orange;" class="app-page-title">Список майна історичного військовослужбовця </h1>
 				<div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert">
 				    <div class="inner">
 					    <div class="app-card-body p-3 p-lg-4">
@@ -215,16 +218,113 @@
 									<p class="ms-user-group"> </p>
 									<p class="ms-user-rank"> </p></div>
 									<div id="dataContainer"></div>
+									<p class="badge bg-danger" id="ms-termination-info"></p>
+<p class="badge bg-warning" id="ms-parental-leaves-info"></p>
+<br>
+<button style="border-color: white;" class="badge bg-secondary" id="ms-parental-leaves-leave" onclick="openCustomLeaveModal()"></button>
+
+<div class="modal fade" id="customModalLeave" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Вийти з декрету</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Форма з 1 полем для вводу дати -->
+        <form id="customLeaveForm" onsubmit="submitCustomLeaveForm(event)">
+          <div class="mb-3">
+            <label for="customLeaveDate" class="form-label">Дата виходу з декрету:</label>
+            <input type="date" class="form-control" id="customLeaveDate" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Підтвердити</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openCustomLeaveModal() {
+    // Отримання id з URL, наприклад, ?id=5
+    const urlParams = new URLSearchParams(window.location.search);
+    const servicemanId = urlParams.get('id');
+
+    // Отримання респонсу GET-запиту
+    fetch(`http://3.71.13.232:5001/serviceman/${servicemanId}`)
+      .then(response => response.json())
+      .then(data => {
+        // Заповнення значення id в атрибуті data-id модального вікна
+        const customModalLeave = document.getElementById('customModalLeave');
+        customModalLeave.setAttribute('data-id', data.parental_leaves[0].id);
+
+        // Відкриття модального вікна
+        const modal = new bootstrap.Modal(customModalLeave);
+        modal.show();
+      })
+      .catch(error => {
+        console.error('Помилка отримання респонсу GET-запиту:', error);
+        alert('Помилка отримання даних');
+      });
+  }
+
+  function submitCustomLeaveForm(event) {
+    event.preventDefault();
+
+    // Отримання значення id з атрибуту data-id модального вікна
+    const leaveId = document.getElementById('customModalLeave').getAttribute('data-id');
+
+    // Отримання значення id з URL, наприклад, ?id=5
+    const urlParams = new URLSearchParams(window.location.search);
+    const servicemanId = urlParams.get('id');
+
+    // Отримання значення дати з поля вводу
+    const customLeaveDate = document.getElementById('customLeaveDate').value;
+
+    // Формування URL для PATCH-запиту
+    const apiUrl = `http://3.71.13.232:5001/serviceman/${servicemanId}/paternity_leave/${leaveId}`;
+
+    // Відправлення PATCH-запиту
+    fetch(apiUrl, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        to_date: customLeaveDate,
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        // Обробка відповіді сервера, наприклад, виведення повідомлення
+        alert('Запит успішно відправлено');
+        // Закриття модального вікна після успішного відправлення запиту
+        const modal = new bootstrap.Modal(document.getElementById('customModalLeave'));
+        modal.hide();
+      })
+      .catch(error => {
+        console.error('Помилка відправлення PATCH-запиту:', error);
+        // Обробка помилки, наприклад, виведення повідомлення про помилку
+        alert('Помилка відправлення запиту');
+      });
+  }
+</script>
 									<script>
 										function getQueryParam(param) {
 											const urlParams = new URLSearchParams(window.location.search);
 											return urlParams.get(param);
 										}
-								
-										function formatDate(date) {
-											return date ? `Дата по: ${date}` : '';
+									
+										function formatDate(dateString) {
+											if (!dateString) {
+												return '';
+											}
+									
+											const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+											const formattedDate = new Date(dateString).toLocaleDateString('uk-UA', options);
+											return formattedDate;
 										}
-								
+									
 										function fetchData() {
 											const id = getQueryParam('id') || '5'; // Використовуємо 5 як значення за замовчуванням
 											fetch(`http://3.71.13.232:5001/serviceman/${id}/norm`)
@@ -232,64 +332,21 @@
 												.then(data => {
 													let output = '';
 													data.forEach(item => {
-														let genders = item.genders.map(gender => gender ? 'Чоловік' : 'Жінка').join(', ');
+														let genders = item.genders.map(gender => gender ? 'чоловіків' : 'жінок').join(', ');
+														let fromDate = formatDate(item.from_date);
 														let toDate = formatDate(item.to_date);
-														output += `<p>Ім'я: ${item.name}, Причина: ${item.reason}, Статі: ${genders}, Дата з: ${item.from_date}${toDate ? ', ' + toDate : ''}</p>`;
+														output += `<p>${item.name}, ${item.reason}, для ${genders}, з ${fromDate}${toDate ? ', до ' + toDate : ''}</p>`;
 													});
 													document.getElementById('dataContainer').innerHTML = output;
 												})
 												.catch(error => console.error('Помилка:', error));
 										}
-								
+									
 										// Виконати запит при завантаженні сторінки
 										window.onload = fetchData;
 									</script>
 							    </div><!--//col-->
-								<form id="promotionForm">
-									<div class="form-group">
-										<label for="rankSelect">Оберіть звання:</label>
-										<select class="form-control" id="rankSelect">
-											<!-- Звання будуть додані тут -->
-										</select>
-									</div>
-									<button type="submit" class="btn btn-primary">Підвищити</button>
-								</form>
-								<script>
-									document.addEventListener('DOMContentLoaded', function() {
-										const ranks = ["Рекрут", "Солдат", "Старший солдат", "Молодший сержант", "Сержант", "Старший сержант", "Головний сержант", "Штаб-сержант", "Майстер-сержант", "Старший майстер-сержант", "Головний майстер-сержант", "Курсант", "Молодший лейтенант", "Лейтенант", "Старший лейтенант", "Капітан", "Майор", "Підполковник", "Полковник", "Бригадний генерал", "Генерал-майор", "Генерал-лейтенант", "Генерал"];
-										const select = document.getElementById('rankSelect');
 								
-										ranks.forEach(function(rank, index) {
-											const option = document.createElement('option');
-											option.value = index;
-											option.textContent = rank;
-											select.appendChild(option);
-										});
-								
-										document.getElementById('promotionForm').addEventListener('submit', function(e) {
-											e.preventDefault();
-											const selectedRank = parseInt(select.value, 10);
-											const urlParams = new URLSearchParams(window.location.search);
-											const id = urlParams.get('id');
-								
-											fetch('http://3.71.13.232:5001/history/serviceman/' + id + '/rank', {
-												method: 'PUT',
-												headers: {
-													'Content-Type': 'application/json',
-												},
-												body: JSON.stringify({ rank: selectedRank })
-											})
-											.then(response => response.json())
-											.then(data => {
-												console.log('Success:', data);
-												alert('Звання військовослужбовця успішно оновлено!');
-											})
-											.catch((error) => {
-												console.error('Error:', error);
-											});
-										});
-									});
-								</script>
 							    </div><!--//col-->
 						    </div><!--//row-->
 						     </div><!--//app-card-body-->
@@ -317,6 +374,7 @@
 											<!-- Дані будуть вставлені тут -->
 										</tbody>
 									</table>
+									
 							
 </div>
 
@@ -336,7 +394,7 @@
             let issueButton = `<a class="btn-sm app-btn-secondary" href="#" data-toggle="modal" data-target="#myModal" onclick="setSelectedItemID(${item.item.id}, this)" data-date="${date}">Видати</a>`;
 
             if (isIssuedItems && item.granted) {
-                issueButton = ''; // Якщо річ уже видана, кнопку "Видати" не показуємо
+                issueButton = ''; // Якщо річч уже видана, кнопку "Видати" не показуємо
             }
 
             row.innerHTML = `
@@ -375,95 +433,89 @@
         })
         .catch(error => console.error('Error:', error));
 </script>
-									<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-										<div class="modal-dialog" role="document">
-										  <div class="modal-content">
-											<div class="modal-header">
-											  <h5 class="modal-title" id="exampleModalLabel">Виберіть кількість та розмір</h5>
-											  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-											  </button>
-											</div>
-											<div class="modal-body">
-											  <!-- Тут можна додати поля для вибору кількості та розміру -->
-											  <!-- Наприклад, input або select елементи -->
-											  <input type="number" style="padding:5px;" id="quantity" class="form-control">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Виберіть кількість та розмір</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Введіть кількість
+                <input type="number" style="padding:5px;" id="quantity" class="form-control">
+                <br>
+                <!-- Введіть розмір 
+                Замініть input на select для розміру -
+                <select style="padding:5px;" id="size" class="form-control"></select>
+                
+                </select>
+                <br> -->
+                <label for="granted">Дата підвищення:</label>
+                <input type="date" class="form-control" id="granted" required>
+                <script>
+                    var itemId;
+                    var servicemanId;
+                    var selectedDate;
+                    var grantedDate; // Додаємо глобальну змінну для зберігання дати підвищення
 
-												
-											<br>
-											  <!-- Замініть input на select для розміру -->
-											  <select style="padding:5px;" id="size" class="form-control"></select>
-											
-											  </select>
-											  <script>
-		 var itemId;
-    var servicemanId;
-    var selectedDate; // Додаємо глобальну змінну для зберігання дати
+                    function setSelectedItemID(receivedItemId, element) {
+                        var url = `http://3.71.13.232:5001/item/${receivedItemId}`;
+                        selectedDate = element.getAttribute('data-date');
+                        console.log(selectedDate);
 
-    function setSelectedItemID(receivedItemId, element) {
-        var url = `http://3.71.13.232:5001/item/${receivedItemId}`;
-        selectedDate = element.getAttribute('data-date'); // Зберігаємо дату
-        console.log(selectedDate); // Виводимо дату в консоль
+                        fetch(url)
+                            .then(response => response.json())
+                            .then(data => {
+                                // Видалено код для отримання розмірів
+                            })
+                            .catch(error => console.error("Помилка отримання розмірів", error));
 
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                var sizesSelect = document.getElementById("size");
-                sizesSelect.innerHTML = "";
+                        window.itemId = receivedItemId;
+                        var urlParams = new URLSearchParams(window.location.search);
+                        window.servicemanId = urlParams.get('id');
+                    }
 
-                for (var sizeId in data.sizes) {
-                    var size = data.sizes[sizeId];
-                    var option = document.createElement("option");
-                    option.value = size.size;
-                    option.text = size.size.charAt(0).toUpperCase() + size.size.slice(1);
-                    sizesSelect.add(option);
-                }
-            })
-            .catch(error => console.error("Помилка отримання розмірів", error));
+                    function addItemID() {
+                        var quantity = parseInt(document.getElementById("quantity").value, 10);
+                        //var size = document.getElementById("size").value;
+                        var date = window.selectedDate;
+                        var itemId = window.itemId;
+                        var servicemanId = window.servicemanId;
+                        var grantedDate = document.getElementById("granted").value; // Отримуємо значення дати підвищення
 
-        window.itemId = receivedItemId;
+                        var url = `http://3.71.13.232:5001/history/serviceman/${servicemanId}/item/${itemId}`;
 
-        var urlParams = new URLSearchParams(window.location.search);
-        window.servicemanId = urlParams.get('id');
-    }
-
-    function addItemID() {
-    var quantity = parseInt(document.getElementById("quantity").value, 10);
-    var size = document.getElementById("size").value;
-    var date = window.selectedDate; // Використовуємо збережену дату
-    var itemId = window.itemId;
-    var servicemanId = window.servicemanId;
-
-    var url = `http://3.71.13.232:5001/history/serviceman/${servicemanId}/item/${itemId}`;
-
-    fetch(url, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            date: date,
-            count: quantity,
-            size: size,
-        }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Успішно додано:', data);
-        window.location.reload(); // Додаємо цей рядок для перезавантаження сторінки
-    })
-    .catch(error => {
-        console.error('Помилка при додаванні:', error);
-    });
-}
-											  </script>
+                        fetch(url, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                date: date,
+                                count: quantity,
+                                //size: size,
+                                granted: grantedDate, // Додаємо значення дати підвищення
+                            }),
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log('Успішно додано:', data);
+                                window.location.reload();
+                            })
+                            .catch(error => {
+                                console.error('Помилка при додаванні:', error);
+                            });
+                    }
+                </script>
 											</div>
 											<div class="modal-footer">
 											
 												<button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
 											
 							
-												<button type="button" class="btn btn-primary" onclick="addItemID(itemId)">Додати</button>
+												<button type="button" class="btn app-btn-primary" onclick="addItemID(itemId)">Додати</button>
 
 </div>
 </div>
@@ -495,48 +547,69 @@
 							
 									// Отримання даних про користувача
 									fetchData(userUrl)
-										.then(userData => {
-											console.log('Отримано дані користувача:', userData);
-							
-											// Перевірка, чи є поле "rank" в отриманих даних
-											if (userData.rank) {
-												// Отримання списку ранків
-												fetchData(ranksUrl)
-													.then(ranksData => {
-														// Пошук ранку за ID
-														const userRank = ranksData[userData.rank - 1];
-							
-														// Виведення результату в консоль
-														console.log('Назва ранку:', userRank);
-							
-														// Додавання назви ранку до сторінки
-														const pageRank = document.querySelector('.ms-user-rank');
-														pageRank.textContent = `Звання: ${userRank}`;
-							
-														// Встановлюємо інформацію про користувача в заголовок h1
-														const pageTitle = document.querySelector('.ms-user-current');
-														pageTitle.textContent = `Картка В/С: ${userData.name} ${userData.surname} ${userData.patronymic}`;
-							
-														const pageGroup = document.querySelector('.ms-user-group');
-														pageGroup.textContent = `Група: ${userData.group}`;
-							
-														
-													});
-											} else {
-												console.log('Користувач не має ранку.');
-											}
-										})
-										.catch((error) => {
-											console.error('Помилка при виконанні запиту:', error);
-											// Додайте код для відображення повідомлення про помилку користувачу тут
-										});
+    .then(userData => {
+        console.log('Отримано дані користувача:', userData);
+
+        // Перевірка, чи є поле "rank" в отриманих даних
+        if (userData.rank) {
+            // Отримання списку ранків
+            fetchData(ranksUrl)
+                .then(ranksData => {
+                    // Пошук ранку за ID
+                    const userRank = ranksData[userData.rank];
+
+                    // Виведення результату в консоль
+                    console.log('Назва ранку:', userRank);
+
+                    // Додавання назви ранку до сторінки
+                    const pageRank = document.querySelector('.ms-user-rank');
+                    pageRank.textContent = `Звання: ${userRank}`;
+
+                    // Встановлюємо інформацію про користувача в заголовок h1
+                    const pageTitle = document.querySelector('.ms-user-current');
+                    pageTitle.textContent = `Картка В/С: ${userData.name} ${userData.surname} ${userData.patronymic}`;
+
+                    const pageGroup = document.querySelector('.ms-user-group');
+                    pageGroup.textContent = `Група: ${userData.group}`;
+
+                    // Перевірка, чи є дата звільнення
+                    if (userData.termination_date) {
+                        const terminationDate = new Date(userData.termination_date);
+                        const terminationText = `Звільнений з: ${terminationDate.toLocaleDateString()}`;
+                        // Додавання тексту звільнення до сторінки
+						const terminationInfo = document.querySelector('#ms-termination-info');
+terminationInfo.textContent = terminationText;
+                    }
+
+                    // Перевірка, чи є інформація про декрет
+if (userData.parental_leaves && userData.parental_leaves.length > 0) {
+    const parentalLeaves = userData.parental_leaves[0];
+	const parentalLeavesText = `Декрет: з ${new Date(parentalLeaves.from_date).toLocaleDateString()} ${parentalLeaves.to_date ? `по ${new Date(parentalLeaves.to_date).toLocaleDateString()}` : ' '}`;
+
+
+    // Додавання тексту декрету до сторінки
+    const parentalLeavesInfo = document.querySelector('#ms-parental-leaves-info');
+    parentalLeavesInfo.textContent = parentalLeavesText;
+
+    // Додавання кнопки "Вийти з декрету"
+    const leaveButton = document.querySelector('#ms-parental-leaves-leave');
+    leaveButton.textContent = 'Вийти з декрету'; // Текст кнопки
+}
+
+                });
+        } else {
+            console.log('Користувач не має ранку.');
+        }
+    })
+    .catch((error) => {
+        console.error('Помилка при виконанні запиту:', error);
+        // Додайте код для відображення повідомлення про помилку користувачу тут
+    });
 								} else {
 									console.log('ID відсутній. Запит не відправлено.');
 									// Додайте код або повідомлення про те, що ID відсутній
 								}
 							});
-							
-
 								</script> 
 						        </div><!--//table-responsive-->
 						       
@@ -548,69 +621,258 @@
 			        
 			      
 									</table>
-									<button style="max-width:30%!important;" class="btn app-btn-primary w-100 theme-btn mx-auto" type="button" data-toggle="modal" data-target="#leaveModal">
-										Відправити військовослужбовця в декрет
-									</button>
-								<!-- Модальне вікно -->
+									
+<br>
+<div class="container">
+	<div class="row">
+	  <!-- Карта для "Відправити військовослужбовця в декрет" -->
+	  <div class="col-md-6 mb-4">
+		<div class="app-card alert alert-dismissible shadow-sm border-left-decoration" role="alert">
+		  <div class="inner">
+			<div class="app-card-body p-3 p-lg-4">
+				<h6 style="color:orange">Відправити історичного військовослужбовця в декрет</h6> Відповідно до наказу №:1588. Після відправки військовослужбовця в декрет Ви не будете його бачити списку військовослужбовців.<br>
+			  <button style="    margin-bottom: 60px;margin-top:30px;" class="btn app-btn-primary theme-btn mx-auto" type="button" data-toggle="modal" data-target="#leaveModal">
+				Відправити
+			  </button>
+			  <br>
+			  <br>
+			</div>
+		  </div>
+		</div>
+	  </div>
+  
+	  <!-- Форма для "Підвищити військовослужбовця" -->
+	  <div class="col-md-6 mb-4">
+		<form id="promotionForm">
+			<div class="app-card alert alert-dismissible shadow-sm border-left-decoration" role="alert">
+				<div class="inner">
+					<div class="app-card-body p-3 p-lg-4">
+						<h6 style="color:orange">Підвищити історичного військовослужбовця</h6>
+						<div class="form-group">
+							<label for="rankSelect">Оберіть звання:</label>
+							<select style="min-height: 50px; max-width: 150px;" class="form-control" id="rankSelect"></select>
+						</div>
+						<div class="form-group">
+							<label for="date">Дата підвищення:</label>
+							<input type="date" class="form-control" id="date" required>
+						</div>
+						<button type="submit" class="btn app-btn-primary theme-btn mx-auto" type="button">Підвищити</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	  
+	  <!-- Блок для "Звільнити військовослужбовця" -->
+	  <div class="col-md-6 mb-4">
+		<div class="app-card alert alert-dismissible shadow-sm border-left-decoration" role="alert">
+			<div class="inner">
+				<div class="app-card-body p-3 p-lg-4">
+					<h6 style="color:orange;">Звільнити історичного військовослужбовця</h6> Натисканням на цю кнопку військовослужбовець буде звільнений.<br>
+					<button style="margin-top:30px;color:white;" class="btn btn-danger mx-auto" type="button" data-toggle="modal" data-target="#modal-leave-new">
+						Звільнити
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Модальне вікно -->
+	<div class="modal fade" id="modal-leave-new" tabindex="-1" role="dialog" aria-labelledby="modal-leave-new-label" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modal-leave-new-label">Підтвердження звільнення</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form id="dismissForm">
+						<div class="form-group">
+							<label for="fromDateInput">Дата звільнення</label>
+							<input type="date" class="form-control" id="fromDateInput" required>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Скасувати</button>
+					<button style="color:white;" type="button" class="btn btn-danger" onclick="submitDismissForm()">Підтвердити звільнення</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+    function submitDismissForm() {
+        // Отримати id військовослужбовця з параметрів URL
+        var urlParams = new URLSearchParams(window.location.search);
+        var servicemanId = urlParams.get('id');
+
+        // Перевірити, чи вдалося отримати id
+        if (!servicemanId) {
+            console.error('Не вдалося отримати id військовослужбовця з параметрів URL.');
+            return;
+        }
+
+        // Отримати значення дати з модального вікна
+        var fromDateInput = document.getElementById('fromDateInput');
+        var fromDate = fromDateInput.value;
+
+        // Перевірити, чи введено значення дати
+        if (!fromDate) {
+            console.error('Введіть значення дати.');
+            return;
+        }
+
+        // Створити об'єкт з даними для відправки
+        var formData = {
+            from_date: fromDate
+        };
+
+        // Виконати PUT-запит за допомогою Fetch API
+        fetch(`http://3.71.13.232:5001/serviceman/${servicemanId}/terminate`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Обробити відповідь від сервера, якщо потрібно
+            console.log(data);
+        })
+        .catch(error => {
+            // Обробити помилку, якщо вона виникла під час виконання запиту
+            console.error('Fetch error:', error);
+        });
+    }
+</script>
+		  </div>
+		</div>
+	  </div>
+	  
+	</div>
+</div>
+  
+<!-- Модальне вікно для "Відправити військовослужбовця в декрет" -->
 <div class="modal fade" id="leaveModal" tabindex="-1" role="dialog" aria-labelledby="leaveModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="leaveModalLabel">Форма декретної відпустки</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="leaveForm">
-                    <div class="form-group">
-                        <label for="fromDate">Дата початку:</label>
-                        <input type="date" class="form-control" id="fromDate" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="toDate">Дата закінчення:</label>
-                        <input type="date" class="form-control" id="toDate" required>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
-                <button type="button" class="btn btn-primary" onclick="submitLeaveForm()">Відправити</button>
-            </div>
-        </div>
-    </div>
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="leaveModalLabel">Форма декретної відпустки</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+		  <form id="leaveForm">
+			<div class="form-group">
+			  <label for="fromDate">Дата початку:</label>
+			  <input type="date" class="form-control" id="fromDate" required>
+			</div>
+			<div class="form-group">
+			  <label for="toDate">Дата закінчення:</label>
+			  <input type="date" class="form-control" id="toDate" required>
+			</div>
+		  </form>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
+		  <button type="button" class="btn app-btn-primary" onclick="submitLeaveForm()">Відправити</button>
+		</div>
+	  </div>
+	</div>
 </div>
 <script>
-	function submitLeaveForm() {
-    const fromDate = document.getElementById('fromDate').value;
-    const toDate = document.getElementById('toDate').value;
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id');
+function submitLeaveForm() {
+const fromDate = document.getElementById('fromDate').value;
+const toDate = document.getElementById('toDate').value;
+const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get('id');
 
-    fetch('http://3.71.13.232:5001/serviceman/' + id + '/paternity_leave', {
-        method: 'PUT', // або 'PUT', залежно від вашої API специфікації
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            from_date: fromDate,
-            to_date: toDate
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-        alert('Інформація про декретну відпустку військовослужбовця успішно відправлена!');
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-        alert('Помилка при відправленні даних');
+fetch('http://3.71.13.232:5001/serviceman/' + id + '/paternity_leave', {
+method: 'PUT', // або 'PUT', залежно від вашої API специфікації
+headers: {
+'Content-Type': 'application/json',
+},
+body: JSON.stringify({
+from_date: fromDate,
+to_date: toDate
+})
+})
+.then(response => response.json())
+.then(data => {
+console.log('Success:', data);
+alert('Інформація про декретну відпустку військовослужбовця успішно відправлена!');
+})
+.catch((error) => {
+console.error('Error:', error);
+alert('Помилка при відправленні даних');
+});
+
+// Закриття модального вікна
+$('#leaveModal').modal('hide');
+}
+</script>
+		
+		
+			<script>
+				document.addEventListener('DOMContentLoaded', function () {
+    const ranks = ["Рекрут", "Солдат", "Старший солдат", "Молодший сержант", "Сержант", "Старший сержант", "Головний сержант", "Штаб-сержант", "Майстер-сержант", "Старший майстер-сержант", "Головний майстер-сержант", "Курсант", "Молодший лейтенант", "Лейтенант", "Старший лейтенант", "Капітан", "Майор", "Підполковник", "Полковник", "Бригадний генерал", "Генерал-майор", "Генерал-лейтенант", "Генерал"];
+    const select = document.getElementById('rankSelect');
+    const dateInput = document.getElementById('date');
+
+    ranks.forEach(function (rank, index) {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = rank;
+        select.appendChild(option);
     });
 
-    // Закриття модального вікна
-    $('#leaveModal').modal('hide');
-}
-</script>						        </div><!--//table-responsive-->
+    document.getElementById('promotionForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const selectedRank = parseInt(select.value, 10);
+        const promotionDate = dateInput.value;
+
+        if (!promotionDate) {
+            alert('Будь ласка, вкажіть дату підвищення.');
+            return;
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+
+        fetch('http://3.71.13.232:5001/history/serviceman/' + id + '/rank', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ rank: selectedRank, date: promotionDate })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                alert('Звання військовослужбовця успішно оновлено!');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    });
+});
+			</script>
+		</div>
+
+
+
+<!--//table-responsive-->
 								<!--<div class="app-card alert alert-dismissible shadow-sm mb-4 border-left-decoration" role="alert">
 									<div class="inner">
 										<div class="app-card-body p-3 p-lg-4">
@@ -772,4 +1034,3 @@
 
 </body>
 </html> 
-

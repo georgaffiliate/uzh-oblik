@@ -344,17 +344,22 @@ loadRanks();
         const requestData = {};
 
         formData.forEach((value, key) => {
-            if (key === 'rank' || key === 'group') {
-                const selectElement = document.getElementById(`setting-input-${key === 'rank' ? 4 : 6}`);
-                const selectedIndex = value;
-                const selectedOption = selectElement.options[selectedIndex - 1];
-                requestData[key] = selectedOption ? parseInt(selectedOption.value, 10) : null; // Перетворення рядка в число
-            } else if (key === 'sex') {
-                requestData[key] = value === 'true';
-            } else {
-                requestData[key] = value;
-            }
-        });
+			if (key === 'rank' || key === 'group') {
+// Перетворити значення rank та group в цілі числа
+requestData[key] = parseInt(value);
+} else if (key === 'sex') {
+requestData[key] = value === 'true';
+} else {
+requestData[key] = value;
+}
+});
+
+// Отримати значення вибраного елемента select для групи
+const groupSelect = document.getElementById('setting-input-6');
+const selectedGroupText = groupSelect.options[groupSelect.selectedIndex].text;
+
+// Додати текст вибраної групи до об'єкта requestData
+requestData['group'] = selectedGroupText;
 
         // Отримати значення дати
         const dateValue = document.getElementById('date').value;
