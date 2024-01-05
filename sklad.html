@@ -229,47 +229,46 @@
 						</form>
 						<script>
 							document.addEventListener('DOMContentLoaded', function () {
-								const form = document.querySelector('.settings-form');
-						
-								form.addEventListener('submit', function (event) {
-									event.preventDefault();
-						
-									const nameInput = document.getElementById('setting-input-1');
-									const returnableInputs = document.querySelectorAll('input[name="radio2"]');
-									const sizeInput = document.getElementById('setting-input-3');
-						
-									const selectedReturnable = Array.from(returnableInputs).find(input => input.checked);
-						
-									const data = {
-										name: nameInput.value,
-										returnable: selectedReturnable ? selectedReturnable.value === 'Так' : false,
-										
-									};
-						
-									// Відправляємо запит PUT на бекенд
-									fetch('http://3.71.13.232:5001/item', {
-										method: 'PUT',
-										headers: {
-											'Content-Type': 'application/json',
-										},
-										body: JSON.stringify(data),
-									})
-									.then(response => response.json())
-									.then(data => {
-										// Обробляємо відповідь від бекенду
-										const responseMessage = document.getElementById('response-message');
-										responseMessage.style.color = 'green';
-										responseMessage.innerHTML = 'Успішно додано майно до складу<br><a href="sklad.html">Оновити сторінку</a>';
+    const form = document.querySelector('.settings-form');
 
-									})
-									.catch(error => {
-										console.error('Помилка:', error);
-										const responseMessage = document.getElementById('response-message');
-										responseMessage.style.color = 'red';
-										responseMessage.textContent = 'Помилка при додаванні майна до складу';
-									});
-								});
-							});
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const nameInput = document.getElementById('setting-input-1');
+        const returnableSelect = document.querySelector('select[name="radio2"]');
+        const sizeInput = document.getElementById('setting-input-3');
+
+        const selectedReturnable = returnableSelect.value;
+
+        const data = {
+            name: nameInput.value,
+            returnable: selectedReturnable === 'Так',
+        };
+
+        // Відправляємо запит PUT на бекенд
+        fetch('http://3.71.13.232:5001/item', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Обробляємо відповідь від бекенду
+                const responseMessage = document.getElementById('response-message');
+                responseMessage.style.color = 'green';
+                responseMessage.innerHTML = 'Успішно додано майно до складу<br><a href="sklad.html">Оновити сторінку</a>';
+
+            })
+            .catch(error => {
+                console.error('Помилка:', error);
+                const responseMessage = document.getElementById('response-message');
+                responseMessage.style.color = 'red';
+                responseMessage.textContent = 'Помилка при додаванні майна до складу';
+            });
+    });
+});
 						</script>
 						
 						
