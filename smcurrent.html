@@ -377,40 +377,43 @@
 									
 							
 </div>
-
+<style>
+	a.disabled {
+    pointer-events: none;  /* Заборонити клік */
+    color: grey;          /* Зміна кольору для візуального вказівника */
+}
+</style>
 <script>
     // Отримуємо id з URL
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
 
     // Функція для вставки даних у табличку
-    function insertDataIntoTable(data, isIssuedItems = false) {
-        const inventoryBody = document.getElementById('inventoryBody');
-
-        data.forEach(item => {
-            const row = document.createElement('tr');
-            const date = item.date; // Use the date as received
-
-            let issueButton = `<a class="btn-sm app-btn-secondary" href="#" data-toggle="modal" data-target="#myModal" onclick="setSelectedItemID(${item.item.id}, this)" data-date="${date}">Видати</a>`;
-
-            if (isIssuedItems && item.granted) {
-                issueButton = ''; // Якщо річ уже видана, кнопку "Видати" не показуємо
-            }
-
-            row.innerHTML = `
-                <td>${date}</td>
-                <td>${item.item.name}</td>
-                <td>${item.count}</td>
-                <td>${item.size || '-'}</td>
-                <td class="cell"><span class="badge ${item.item.returnable ? 'bg-danger' : 'bg-success'}">${item.item.returnable ? 'Так' : 'Ні'}</span></td>
-                <td>${issueButton}</td>
-                <td>${isIssuedItems ? item.granted || '-' : '-'}</td>
-            `;
-
-            inventoryBody.appendChild(row);
-        });
-    }
-
+	function insertDataIntoTable(data, isIssuedItems = false) {
+    const inventoryBody = document.getElementById('inventoryBody');
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Обнулення часу для точного порівняння дат
+    data.forEach(item => {
+        const row = document.createElement('tr');
+        const itemDate = new Date(item.date);
+        const isBefore = today < itemDate; // Перевірка, чи поточна дата раніше дати належності
+        let issueButton = `<a class="btn-sm app-btn-secondary ${isBefore ? 'disabled' : ''}" href="#" data-toggle="modal" data-target="#myModal" onclick="setSelectedItemID(${item.item.id}, this)" data-date="${item.date}">Видати</a>`;
+        if (isIssuedItems && item.granted) {
+            issueButton = ''; // Якщо річ уже видана, кнопку "Видати" не показуємо
+        }
+        row.innerHTML = `
+            <td>${item.date}</td>
+            <td>${item.item.name}</td>
+            <td>${item.count}</td>
+            <td>${item.size || '-'}</td>
+            <td class="cell"><span class="badge ${item.item.returnable ? 'bg-danger' : 'bg-success'}">${item.item.returnable ? 'Так' : 'Ні'}</span></td>
+            <td>${issueButton}</td>
+            <td>${isIssuedItems ? item.granted || '-' : '-'}</td>
+            <td>${today.toLocaleDateString()}</td> <!-- Додаємо поточну дату -->
+        `;
+        inventoryBody.appendChild(row);
+    });
+}
     // Виконуємо перший GET-запит
     fetch(`http://3.71.13.232:5001/serviceman/${id}/norm`)
         .then(response => response.json())
@@ -1031,3 +1034,4 @@ $('#leaveModal').modal('hide');
 
 </body>
 </html> 
+
