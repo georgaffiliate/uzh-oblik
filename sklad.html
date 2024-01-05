@@ -228,6 +228,7 @@
 							<p style="color:green;" id="response-message"></p>
 						</form>
 						<script>
+							
 							document.addEventListener('DOMContentLoaded', function () {
     const form = document.querySelector('.settings-form');
 
@@ -305,13 +306,22 @@
 			
 				<!-- JavaScript-код для отримання та відображення даних -->
 				<script>
+					let selectedItemId;
 				document.addEventListener('DOMContentLoaded', function () {
-    let selectedItemId; // Змінна для зберігання обраного ID елемента
+					// Змінна для зберігання обраного ID елемента
+	let selectedItemName;
 
     // Функція для обрання ID при натисканні на рядок таблиці
-    function selectItem(itemId) {
-        selectedItemId = itemId;
-        fetchItemDetails(itemId); // Викликаємо функцію для отримання деталей елемента
+  // Функція для обрання ID та назви при натисканні на рядок таблиці
+function selectItem(itemId, itemName) {
+    selectedItemId = itemId;
+    selectedItemName = itemName;
+    updateModalTitle(itemName); // Оновлюємо заголовок модального вікна з назвою елемента
+    fetchItemDetails(itemId); // Викликаємо функцію для отримання деталей елемента
+}
+	function updateModalTitle(itemName) {
+        const modalTitle = document.querySelector('#myModal .modal-title');
+        modalTitle.textContent = `Розміри: ${itemName}`;
     }
 
     // Функція для отримання деталей елемента та оновлення таблиці
@@ -331,7 +341,7 @@ function fetchItemDetails(itemId) {
             // Перевіряємо, чи є поле "sizes" та чи не пусте
             if (data.sizes && Object.keys(data.sizes).length > 0) {
                 Object.keys(data.sizes).forEach(sizeId => {
-                    const sizeData = data.sizes[sizeId];
+                    const sizeData = data.sizes[sizeId]; 
                     const row = document.createElement('tr');
                     row.innerHTML = `<td>${sizeData.size}</td><td>${sizeData.count}</td>`;
                     sizesTableBody.appendChild(row);
@@ -397,11 +407,11 @@ function fetchItemDetails(itemId) {
                 itemsTable.querySelector('tbody').innerHTML = '';
 
                 // Додаємо нові дані до таблиці
-                data.forEach(item => {
-                    const row = document.createElement('tr');
-                    row.dataset.toggle = 'modal';
-                    row.dataset.target = '#myModal';
-                    row.addEventListener('click', () => selectItem(item.id));
+				data.forEach(item => {
+        const row = document.createElement('tr');
+        row.dataset.toggle = 'modal';
+        row.dataset.target = '#myModal';
+        row.addEventListener('click', () => selectItem(item.id, item.name)); // Передаємо ім'я елемента при виборі
 
                     // ID
                    // const idCell = document.createElement('td');
@@ -444,8 +454,8 @@ function fetchItemDetails(itemId) {
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title">Розміри і Кількості</h5>
-								<!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<h5 class="modal-title" id="modalTitle"></h5>
+								<!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button> -->
 							</div>
@@ -473,14 +483,70 @@ function fetchItemDetails(itemId) {
 										<!-- Тут будуть відображені розміри та кількості -->
 									</tbody>
 								</table>
+								<script>
+									// Функція для оновлення деталей елемента
+    window.editItem = function () {
+    const nameEdit = document.getElementById('name_edit').value;
+    const returnableEdit = document.querySelector('select[name="radio2_edit"]').value;
+
+    // Перетворюємо значення 'Так'/'Ні' у булевий тип
+    const returnable = returnableEdit === 'Так';
+
+
+    // Відправити PUT-запит на сервер
+    const requestBody = {
+        name: nameEdit,
+        returnable: returnable
+    };
+
+    fetch(`http://3.71.13.232:5001/item/${selectedItemId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Оновити інформацію про елемент у таблиці
+        location.reload();
+        // Можна додати повідомлення про успішне оновлення або закрити модальне вікно
+    })
+    .catch(error => {
+        console.error('Помилка:', error);
+    });
+};
+								</script>
+								<br>
+								<form id="edit_item" onsubmit="event.preventDefault(); if(this.checkValidity()) editItem(selectedItemId);">
+									<p style="font-weight: bold;color:black;">Відредагувати майно:</p>
+									<div class="form-group">
+										<label for="size">Назва:</label>
+										<input type="text" class="form-control" id="name_edit" required>
+									</div>
+											<br>
+									<div class="form-group">
+			<label for="setting-input-2" class="form-label">Інвентарне:</label>
+			<select name="radio2_edit" required>
+				<option value="" disabled selected>Оберіть варіант</option>
+				<option value="Так">Так</option>
+				<option value="Ні">Ні</option>
+			</select>
+		</div>
+		<button type="submit" style="margin-top:10px;" class="btn app-btn-primary">Відредагувати</button>
+
+									
+								</form>
 												</div>
+												
 												<div class="modal-footer">
 													<button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
+		
 												</div>
 											</div>
 										</div>
 									</div>
-									
+
 									<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 									<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 									<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -521,5 +587,4 @@ function fetchItemDetails(itemId) {
     <script src="assets/js/app.js"></script> 
 
 </body>
-</html> 
-
+</html>
