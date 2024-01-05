@@ -418,12 +418,16 @@
         .catch(error => console.error('Error:', error));
 
     // Виконуємо другий GET-запит
-    fetch(`http://3.71.13.232:5001/serviceman/${id}/obligation`)
+	const today = new Date();
+const tenYearsLater = new Date(today.getFullYear() + 10, today.getMonth(), today.getDate());
+const formattedDate = tenYearsLater.toISOString().split('T')[0];
+    fetch(`http://3.71.13.232:5001/serviceman/${id}/obligation?to=${formattedDate}`)
         .then(response => response.json())
         .then(data => insertDataIntoTable(data))
         .catch(error => console.error('Error:', error));
 
     // Виконуємо третій GET-запит для виданих речей
+	
     fetch(`http://3.71.13.232:5001/serviceman/${id}`)
         .then(response => response.json())
         .then(data => {
@@ -1027,4 +1031,3 @@ $('#leaveModal').modal('hide');
 
 </body>
 </html> 
-
