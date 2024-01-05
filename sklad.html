@@ -215,10 +215,12 @@
 							</div>
 <div class="mb-3">
     <label for="setting-input-2" class="form-label">Інвентарне</label>
-    <input type="radio" name="radio2" value="Ні" id="inventory-no"> Ні
-    <input type="radio" name="radio2" value="Так" id="inventory-yes"> Так
+    <select name="inventory" required>
+        <option value="" disabled selected>Оберіть варіант</option>
+        <option value="Так">Так</option>
+        <option value="Ні">Ні</option>
+    </select>
 </div>
-
 <script>
     document.querySelector('form').addEventListener('submit', function(event) {
         var inventoryYes = document.getElementById('inventory-yes');
