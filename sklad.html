@@ -213,11 +213,14 @@
 								</svg></span></label>
 								<input type="text" class="form-control" name="name" id="setting-input-1" value="Кепі бойове" required="">
 							</div>
-							<div class="mb-3">
-								<label for="setting-input-2" class="form-label">Інвентарне</label>
-								<input type="radio" name="radio2" value="Ні"> Ні
-								<input type="radio" name="radio2" value="Так"> Так
-							</div>
+<div class="mb-3">
+    <label for="setting-input-2" class="form-label">Інвентарне</label>
+    <select name="inventory" required>
+        <option value="" disabled selected>Оберіть варіант</option>
+        <option value="Так">Так</option>
+        <option value="Ні">Ні</option>
+    </select>
+</div>
 							
 							<button type="submit" class="btn app-btn-primary">Додати майно до складу</button>
 							<p style="color:green;" id="response-message"></p>
