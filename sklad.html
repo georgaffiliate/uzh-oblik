@@ -214,24 +214,16 @@
 								<input type="text" class="form-control" name="name" id="setting-input-1" value="Кепі бойове" required="">
 							</div>
 <div class="mb-3">
-    <label for="setting-input-2" class="form-label">Інвентарне</label>
-    <select name="inventory" required>
-        <option value="" disabled selected>Оберіть варіант</option>
-        <option value="Так">Так</option>
-        <option value="Ні">Ні</option>
-    </select>
+    <label class="form-label">Інвентарне</label>
+    <div>
+        <input type="checkbox" id="inventory-yes" name="radio2" value="Так" required>
+        <label for="inventory-yes">Так</label>
+    </div>
+    <div>
+        <input type="checkbox" id="inventory-no" name="radio2" value="Ні" required>
+        <label for="inventory-no">Ні</label>
+    </div>
 </div>
-<script>
-    document.querySelector('form').addEventListener('submit', function(event) {
-        var inventoryYes = document.getElementById('inventory-yes');
-        var inventoryNo = document.getElementById('inventory-no');
-
-        if (!inventoryYes.checked && !inventoryNo.checked) {
-            alert('Будь ласка, оберіть хоча б один варіант.');
-            event.preventDefault(); // Забороняє відправку форми, якщо не вибрано жодна радіокнопка
-        }
-    });
-</script>
 
 
 							
