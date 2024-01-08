@@ -409,7 +409,7 @@
             <td class="cell"><span class="badge ${item.item.returnable ? 'bg-danger' : 'bg-success'}">${item.item.returnable ? 'Так' : 'Ні'}</span></td>
             <td>${issueButton}</td>
             <td>${isIssuedItems ? item.granted || '-' : '-'}</td>
-            <td>${today.toLocaleDateString()}</td> <!-- Додаємо поточну дату -->
+          
         `;
         inventoryBody.appendChild(row);
     });
