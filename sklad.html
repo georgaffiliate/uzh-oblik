@@ -339,14 +339,14 @@ function fetchItemDetails(itemId) {
             sizesTableBody.innerHTML = ''; // Очищаємо попередні дані в таблиці
 
             // Перевіряємо, чи є поле "sizes" та чи не пусте
-            if (data.sizes && Object.keys(data.sizes).length > 0) {
-                Object.keys(data.sizes).forEach(sizeId => {
-                    const sizeData = data.sizes[sizeId]; 
-                    const row = document.createElement('tr');
-                    row.innerHTML = `<td>${sizeData.size}</td><td>${sizeData.count}</td>`;
-                    sizesTableBody.appendChild(row);
-                });
-            } else {
+			if (data.sizes && Object.keys(data.sizes).length > 0) {
+    Object.keys(data.sizes).forEach(sizeId => {
+        const sizeData = data.sizes[sizeId]; 
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${sizeData.size}</td><td>${sizeData.count}</td><td><button class="delete-btn" onclick="deleteRow('${itemId}', '${sizeData.size}')">✖</button></td>`;
+        sizesTableBody.appendChild(row);
+    });
+} else {
                 // Якщо поле "sizes" відсутнє або пусте, виводимо порожню таблицю
                 const row = document.createElement('tr');
                 row.innerHTML = `<td colspan="2">Розміри відсутні</td>`;
@@ -358,7 +358,36 @@ function fetchItemDetails(itemId) {
         });
 }
 
+window.deleteRow = function (itemId, size) {
+    const confirmation = confirm("Ви впевнені, що хочете видалити цей розмір?");
+    if (confirmation) {
+        const url = `http://3.71.13.232:5001/item/${itemId}`;
+        const requestBody = {
+            size_to_remove: size
+        };
 
+        fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Викликаємо fetchItemDetails для оновлення таблиці після видалення
+            fetchItemDetails(itemId);
+        })
+        .catch(error => {
+            console.error('Помилка:', error);
+        });
+    }
+}
     // Функція для додавання розміру та кількості
 	window.addSize = function () {
     const size = document.getElementById('size').value;
@@ -477,6 +506,7 @@ function fetchItemDetails(itemId) {
 										<tr>
 											<th>Розмір</th>
 											<th>Кількість</th>
+											<th>Видалити</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -587,4 +617,5 @@ function fetchItemDetails(itemId) {
     <script src="assets/js/app.js"></script> 
 
 </body>
-</html>
+</html> 
+
