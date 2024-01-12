@@ -388,17 +388,34 @@
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
 
-    // Функція для вставки даних у табличку
 	function insertDataIntoTable(data, isIssuedItems = false) {
     const inventoryBody = document.getElementById('inventoryBody');
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Обнулення часу для точного порівняння дат
+
+    // Функція для форматування дати у формат DD.MM.YYYY
+    function formatDate(date) {
+        let day = date.getDate().toString().padStart(2, '0');
+        let month = (date.getMonth() + 1).toString().padStart(2, '0'); // Місяці починаються з 0
+        let year = date.getFullYear();
+        return `${day}.${month}.${year}`;
+    }
+
+    const todayString = formatDate(new Date()); // Поточна дата у форматі DD.MM.YYYY
+
     data.forEach(item => {
         const row = document.createElement('tr');
-        const itemDate = new Date(item.date);
-        const isBefore = today < itemDate; // Перевірка, чи поточна дата раніше дати належності
-        let issueButton = `<a class="btn-sm app-btn-secondary ${isBefore ? 'disabled' : ''}" href="#" data-toggle="modal" data-target="#myModal" onclick="setSelectedItemID(${item.item.id}, this)" data-date="${item.date}">Видати</a>`;
-        if (isIssuedItems && item.granted) {
+
+        // Використовуємо тільки дату з item.date, ігноруючи час
+        const itemDateString = item.date.split(' ')[0]; 
+
+        // Перевіряємо, чи поточна дата є після дати належності
+		const isBefore = todayString <= itemDateString;
+
+console.log(todayString);
+console.log(itemDateString);
+console.log(isBefore);
+        let issueButton = `<a class="btn-sm app-btn-secondary ${isBefore ? '' : 'disabled'}" href="#" data-toggle="modal" data-target="#myModal" onclick="setSelectedItemID(${item.item.id}, this)" data-date="${item.date}">Видати</a>`;
+
+			if (isIssuedItems && item.granted) {
             issueButton = ''; // Якщо річ уже видана, кнопку "Видати" не показуємо
         }
         row.innerHTML = `
@@ -409,7 +426,7 @@
             <td class="cell"><span class="badge ${item.item.returnable ? 'bg-danger' : 'bg-success'}">${item.item.returnable ? 'Так' : 'Ні'}</span></td>
             <td>${issueButton}</td>
             <td>${isIssuedItems ? item.granted || '-' : '-'}</td>
-          
+   
         `;
         inventoryBody.appendChild(row);
     });
