@@ -351,19 +351,28 @@
 						function saveGroup() {
 							const normId = new URLSearchParams(window.location.search).get('id');
 						
-							// Виконуємо цикл для кожного об'єкту в масиві obligations
-							obligations.forEach(obligation => {
-								// Створюємо окремий об'єкт для кожного запиту зі значенням name та items
-								const groupData = {
-									name: obligation.group,
-									items: [{
-										item_id: obligation.item.id,
-										count: obligation.count,
-										term: obligation.term
-									}]
-								};
+							// Створюємо об'єкт для зберігання об'єднаних даних
+							const groupedData = {};
 						
-								// Використовуйте fetch для відправки окремого запиту на сервер для кожного об'єкту
+							// Групуємо дані за полем name
+							obligations.forEach(obligation => {
+								if (!groupedData[obligation.group]) {
+									groupedData[obligation.group] = {
+										name: obligation.group,
+										items: []
+									};
+								}
+								const itemData = {
+									item_id: obligation.item.id,
+									count: obligation.count,
+									term: obligation.term
+								};
+								groupedData[obligation.group].items.push(itemData);
+							});
+					
+							// Виконуємо запити на сервер для об'єктів з groupedData
+							Object.values(groupedData).forEach(groupData => {
+								// Використовуйте fetch для відправки об'єднаних даних на сервер
 								fetch('http://3.71.13.232:5001/norm/' + normId + '/group', {
 									method: 'PUT',
 									headers: {
@@ -378,18 +387,19 @@
 									return response.json();
 								})
 								.then(data => {
-									console.log(`Дані для "${obligation.group}" успішно відправлені на сервер:`, data);
+									console.log(`Дані для "${groupData.name}" успішно відправлені на сервер:`, data);
+					
+									// Після успішного запиту, перенаправити на нову сторінку з відповідним ідентифікатором
+									const newUrl = `normapage.html?id=${normId}`;
+									window.location.href = newUrl;
 								})
 								.catch(error => {
-									console.error(`Сталася помилка при відправці даних для "${obligation.group}" на сервер:`, error);
+									console.error(`Сталася помилка при відправці даних для "${groupData.name}" на сервер:`, error);
 								});
 							});
 						}
-					</script>
-					
-					
-					
-					
+					</script>					
+
 				<br>
 				<!--//table-responsive-->
 					<!-- Додайте кнопку "Зберегти групу" -->
@@ -425,4 +435,3 @@
 
 </body>
 </html> 
-
