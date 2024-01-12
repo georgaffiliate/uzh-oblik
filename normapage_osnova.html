@@ -318,15 +318,19 @@ function renderItems() {
     renderTable();
 }
 function deleteRow(btn, index) {
-    const deletedItem = obligations[index].item;
+    const deletedItem = obligations[index];
     obligations.splice(index, 1);
     renderTable();
     
     // Оновити список ітемів, додавши видалений ітем на початок
     if (deletedItem) {
-        items.unshift(deletedItem);
+        items.unshift(deletedItem.item);
         renderItems();
     }
+
+    // Оновити значення кількості та терміну з видаленого обов'язку
+    document.getElementById('itemCount').value = deletedItem.count;
+    document.getElementById('itemTerm').value = Math.round(deletedItem.term / 365);
 }
 					function renderTable() {
     let table = '<table class="table table-bordered"><thead><tr><th>ID</th><th>Група</th><th>Назва</th><th>Кількість</th><th>Термін (дні)</th><th>Дії</th></tr></thead><tbody>';
