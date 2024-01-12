@@ -358,47 +358,30 @@ function deleteRow(btn, index) {
     console.log(obligations);
 }
 				</script>
-					<div class="form-group">
-						<select style="padding-top: 0.6rem;
-						padding-bottom: 0.6rem;
-						height: 2.5rem;
-						border-color: white;
-						color: #5d6778;
-						border: 3px;
-						border-radius: 5px;" id="itemGroup"></select>
-						<select style="padding-top: 0.6rem;
-						padding-bottom: 0.6rem;
-						height: 2.5rem;
-						border-color: white;
-						color: #5d6778;
-						border: 3px;
-						border-radius: 5px;"  id="itemName"></select> <!-- Випадаючий список для назв елементів -->
-						<input style="padding-top: 0.6rem;
-						padding-bottom: 0.6rem;
-						height: 2.5rem;
-						border-color: white;
-						color: #5d6778;
-						border: 3px;
-						border-radius: 5px;"  type="number" id="itemCount" placeholder="Кількість" />
-						<input  style="padding-top: 0.6rem;
-						padding-bottom: 0.6rem;
-						height: 2.5rem;
-						border-color: white;
-						color: #5d6778;
-						border: 3px;
-						border-radius: 5px;"  type="number" id="itemTerm" placeholder="Термін" />
-						<button style="    padding-top: 0.6rem;
-						padding-bottom: 0.6rem;
-						height: 2.5rem;
-						color: white;
-						background-color: grey;
-						/* border-color: white; */
-						/* color: #030303; */
-						border: 3px;
-						border-radius: 5px;"  onclick="addItem()">Додати Елемент</button>
+					<div class="form-group row">
+						<div class="col-md-3">
+							<label for="itemGroup" class="col-form-label">Група:</label>
+							<select class="form-control" id="itemGroup"></select>
+						</div>
+						<div class="col-md-3">
+							<label for="itemName" class="col-form-label">Майно:</label>
+							<select class="form-control" id="itemName"></select>
+						</div>
+						<div class="col-md-2">
+							<label for="itemCount" class="col-form-label">Кількість:</label>
+							<input class="form-control" type="number" id="itemCount" placeholder="1" />
+						</div>
+						<div class="col-md-2">
+							<label for="itemTerm" class="col-form-label">Термін:</label>
+							<input class="form-control" type="number" id="itemTerm" placeholder="1" />
+						</div>
+						<div class="col-md-2">
+							
+							<button style="margin-top:23%;color:white;" class="btn btn-primary" onclick="addItem()">Додати майно</button>
+						</div>
 					</div>
 					<br>
-					<button style="color:white;" class="btn btn-primary" onclick="saveGroup()">Зберегти групу</button>
+					<button style="color:white;" class="btn btn-success" onclick="saveGroup()">Зберегти норму</button>
 					<script>
 						function saveGroup() {
 							const normId = new URLSearchParams(window.location.search).get('id');
