@@ -202,8 +202,8 @@
 	    
 	    <div class="app-content pt-3 p-md-3 p-lg-4">
 		    <div class="container-xl">			    
-				<h1 class="app-page-title" id="normTitle">Редагування минулої норми</h1>
-
+				<h1 class="app-page-title" id="normTitle">Cтворення норми на основі:</h1>
+<p class="add_header"></p>
 			    <hr class="mb-4">
                 
 							
@@ -212,7 +212,7 @@
 						<!-- Форма для додавання нового елемента -->
 		
 					<div class="table-responsive" id="obligationTable">
-						
+					
 						<!-- Тут буде таблиця -->
 					</div>
 					<br>
@@ -239,6 +239,15 @@
 							}
 							const data = await response.json();
 							obligations = data.obligations || [];
+							header = data.name;
+							var paragraphElement = document.querySelector('.add_header');
+
+// Перевірити, чи елемент існує
+if (paragraphElement) {
+  // Встановити вміст елемента зі значенням змінної header
+  paragraphElement.textContent = header;
+}
+							console.log(header);
 							extractGroups();
 							renderGroups();
 							renderTable();
@@ -279,16 +288,17 @@
 						});
 					}
 				
-					function renderItems() {
-						let select = document.getElementById('itemName');
-						select.innerHTML = '';
-						items.forEach(item => {
-							let option = document.createElement('option');
-							option.value = item.id;
-							option.text = item.name;
-							select.appendChild(option);
-						});
-					}
+					
+function renderItems() {
+    let select = document.getElementById('itemName');
+    select.innerHTML = '';
+    items.forEach(item => {
+        let option = document.createElement('option');
+        option.value = item.id;
+        option.text = item.name;
+        select.appendChild(option);
+    });
+}
 				function addItem() {
     const itemGroup = document.getElementById('itemGroup').value;
     const itemID = document.getElementById('itemName').value;
@@ -307,14 +317,19 @@
     obligations.push(newObligation);
     renderTable();
 }
-				
-					function deleteRow(btn, index) {
-						obligations.splice(index, 1);
-						renderTable();
-					}
-				
+function deleteRow(btn, index) {
+    const deletedItem = obligations[index].item;
+    obligations.splice(index, 1);
+    renderTable();
+    
+    // Оновити список ітемів, додавши видалений ітем на початок
+    if (deletedItem) {
+        items.unshift(deletedItem);
+        renderItems();
+    }
+}
 					function renderTable() {
-    let table = '<table class="table table-bordered"><thead><tr><th>ID</th><th>Група</th><th>Назва</th><th>Кількість</th><th>Термін</th><th>Дії</th></tr></thead><tbody>';
+    let table = '<table class="table table-bordered"><thead><tr><th>ID</th><th>Група</th><th>Назва</th><th>Кількість</th><th>Термін (дні)</th><th>Дії</th></tr></thead><tbody>';
     obligations.forEach((obligation, index) => {
 		const termInYears = Math.round(obligation.term / 365);
         table += `<tr>
@@ -340,13 +355,46 @@
 }
 				</script>
 					<div class="form-group">
-						<select id="itemGroup"></select>
-						<select id="itemName"></select> <!-- Випадаючий список для назв елементів -->
-						<input type="number" id="itemCount" placeholder="Кількість" />
-						<input type="number" id="itemTerm" placeholder="Термін" />
-						<button onclick="addItem()">Додати Елемент</button>
+						<select style="padding-top: 0.6rem;
+						padding-bottom: 0.6rem;
+						height: 2.5rem;
+						border-color: white;
+						color: #5d6778;
+						border: 3px;
+						border-radius: 5px;" id="itemGroup"></select>
+						<select style="padding-top: 0.6rem;
+						padding-bottom: 0.6rem;
+						height: 2.5rem;
+						border-color: white;
+						color: #5d6778;
+						border: 3px;
+						border-radius: 5px;"  id="itemName"></select> <!-- Випадаючий список для назв елементів -->
+						<input style="padding-top: 0.6rem;
+						padding-bottom: 0.6rem;
+						height: 2.5rem;
+						border-color: white;
+						color: #5d6778;
+						border: 3px;
+						border-radius: 5px;"  type="number" id="itemCount" placeholder="Кількість" />
+						<input  style="padding-top: 0.6rem;
+						padding-bottom: 0.6rem;
+						height: 2.5rem;
+						border-color: white;
+						color: #5d6778;
+						border: 3px;
+						border-radius: 5px;"  type="number" id="itemTerm" placeholder="Термін" />
+						<button style="    padding-top: 0.6rem;
+						padding-bottom: 0.6rem;
+						height: 2.5rem;
+						color: white;
+						background-color: grey;
+						/* border-color: white; */
+						/* color: #030303; */
+						border: 3px;
+						border-radius: 5px;"  onclick="addItem()">Додати Елемент</button>
 					</div>
-					<button class="btn btn-primary" onclick="saveGroup()">Зберегти групу</button>
+					<br>
+					<button style="color:white;" class="btn btn-primary" onclick="saveGroup()">Зберегти групу</button>
 					<script>
 						function saveGroup() {
 							const normId = new URLSearchParams(window.location.search).get('id');
@@ -435,3 +483,4 @@
 
 </body>
 </html> 
+
