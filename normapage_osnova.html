@@ -314,7 +314,7 @@
 					}
 				
 					function renderTable() {
-    let table = '<table class="table table-bordered"><thead><tr><th>ID</th><th>Група</th><th>Назва</th><th>Кількість</th><th>Термін (дні)</th><th>Дії</th></tr></thead><tbody>';
+    let table = '<table class="table table-bordered"><thead><tr><th>ID</th><th>Група</th><th>Назва</th><th>Кількість</th><th>Термін</th><th>Дії</th></tr></thead><tbody>';
     obligations.forEach((obligation, index) => {
 		const termInYears = Math.round(obligation.term / 365);
         table += `<tr>
