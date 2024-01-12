@@ -358,20 +358,16 @@
 												body: JSON.stringify(requestData),
 											})
 											.then(response => response.json())
-											.then(data => {
-												if (data && data.id && data.gender && data.gender.length > 0) {
-													responseMessage.innerHTML = `Військовослужбовця успішно додано в систему.`;
-									
-													if (data.id) {
-														const viewLink = document.createElement('a');
-														viewLink.href = `smcurrent.html?id=${data.id}`;
-														viewLink.textContent = ' Переглянути його картку';
-														responseMessage.appendChild(viewLink);
-													}
-												} else {
-													responseMessage.innerHTML = `Норму успішно додано.<br><a href="norm_list.html">Переглянути всі норми</a>`;
-												}
-											})
+.then(data => {
+    if (data && data.id) {
+        responseMessage.innerHTML = `Норму успішно додано.`;
+
+        // Додайте редірект на сторінку 'normapage.html' з ідентифікатором норми
+        window.location.href = `normapage.html?id=${data.id}`;
+    } else {
+        responseMessage.innerHTML = `Норму успішно додано.<br><a href="norm_list.html">Переглянути всі норми</a>`;
+    }
+})
 											.catch((error) => {
 												responseMessage.textContent = `Помилка: ${error.message || 'Невідома помилка'}`;
 												console.error('Помилка при виконанні запиту:', error);
