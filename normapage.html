@@ -308,7 +308,9 @@
 						
 										cell1.innerHTML = item.item.name;    // Назва речі
 										cell2.innerHTML = item.count;        // Кількість
-										cell3.innerHTML = parseInt(item.term / 365.24);
+										cell3.innerHTML = Math.ceil(item.term / 365.24);
+
+ // Поділити term на 365 та обмежити до двох знаків після коми
 										// Строк носіння
 										cell4.innerHTML = item.item.returnable ? 'Так' : 'Ні'; // Інвентарне
 									});
