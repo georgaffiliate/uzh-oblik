@@ -304,7 +304,7 @@ function renderItems() {
     const itemID = document.getElementById('itemName').value;
     const selectedItem = items.find(item => item.id.toString() === itemID);
     const itemCount = document.getElementById('itemCount').value;
-    const itemTerm = Math.round(document.getElementById('itemTerm').value * 365);
+    const itemTerm = Math.round(document.getElementById('itemTerm').value * 365.24);
 
     const newObligation = {
         id: selectedItem.id, // Використовуємо ID обраного елемента
@@ -330,12 +330,12 @@ function deleteRow(btn, index) {
 
     // Оновити значення кількості та терміну з видаленого обов'язку
     document.getElementById('itemCount').value = deletedItem.count;
-    document.getElementById('itemTerm').value = Math.round(deletedItem.term / 365);
+    document.getElementById('itemTerm').value = Math.round(deletedItem.term / 365.24);
 }
 					function renderTable() {
-    let table = '<table class="table table-bordered"><thead><tr><th>ID</th><th>Група</th><th>Назва</th><th>Кількість</th><th>Термін (дні)</th><th>Дії</th></tr></thead><tbody>';
+    let table = '<table class="table table-bordered"><thead><tr><th>ID</th><th>Група</th><th>Назва</th><th>Кількість</th><th>Термін</th><th>Дії</th></tr></thead><tbody>';
     obligations.forEach((obligation, index) => {
-		const termInYears = Math.round(obligation.term / 365);
+		const termInYears = Math.round(obligation.term / 365.24);
         table += `<tr>
                     <td>${obligation.item.id}</td> <!-- Тут використовуємо ID з об'єкта item -->
                     <td>${obligation.group}</td>
