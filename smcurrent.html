@@ -384,39 +384,46 @@
 }
 </style>
 <script>
-    // Отримуємо id з URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id');
+   // Отримуємо id з URL
+   const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get('id');
 
-    function insertDataIntoTable(data, isIssuedItems = false) {
-        const inventoryBody = document.getElementById('inventoryBody');
+function insertDataIntoTable(data, isIssuedItems = false) {
+    const inventoryBody = document.getElementById('inventoryBody');
 
-        // Функція для форматування дати у формат DD.MM.YYYY
-        function formatDate(date) {
-            let day = date.getDate().toString().padStart(2, '0');
-            let month = (date.getMonth() + 1).toString().padStart(2, '0'); // Місяці починаються з 0
-            let year = date.getFullYear();
-            return `${day}.${month}.${year}`;
+    // Унікальна функція для перетворення рядка дати у форматі DD.MM.YYYY у об'єкт Date
+    function parseDateStrToObj(dateStr) {
+        const parts = dateStr.split('.');
+        const day = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10) - 1; // Місяці в JavaScript починаються з 0
+        const year = parseInt(parts[2], 10);
+        return new Date(year, month, day);
+    }
+
+    // Встановлюємо час поточної дати на початок дня для коректного порівняння
+    const todayDateObj = new Date();
+    todayDateObj.setHours(0, 0, 0, 0);
+
+    data.forEach(item => {
+        const row = document.createElement('tr');
+
+        // Перетворюємо item.date (з ігноруванням часу) на об'єкт Date
+        const itemDateObj = parseDateStrToObj(item.date.split(' ')[0]);
+
+        // Перевіряємо, чи поточна дата є до або включно з датою належності
+        const isBefore = todayDateObj >= itemDateObj;
+
+        console.log(todayDateObj.toISOString().split('T')[0]);
+        console.log(itemDateObj.toISOString().split('T')[0]);
+        console.log(isBefore);
+
+        let issueButton = `<a class="btn-sm app-btn-secondary ${isBefore ? '' : 'disabled'}" href="#" data-toggle="modal" data-target="#myModal" onclick="setSelectedItemID(${item.item.id}, this)" data-date="${item.date}">Видати</a>`;
+
+        if (isIssuedItems && item.granted) {
+            issueButton = ''; // Якщо річ уже видана, кнопку "Видати" не показуємо
         }
 
-        const today = new Date();
-        const todayString = formatDate(today); // Поточна дата у форматі DD.MM.YYYY
 
-        data.forEach(item => {
-            const row = document.createElement('tr');
-
-            // Використовуємо тільки дату з item.date, ігноруючи час
-            const itemDate = new Date(item.date);
-            const itemDateString = formatDate(itemDate); 
-
-            // Перевіряємо, чи поточна дата є після дати належності
-            const isBefore = today.getTime() <= itemDate.getTime(); // Порівнюємо час в мілісекундах
-
-            let issueButton = `<a class="btn-sm app-btn-secondary ${isBefore ? '' : 'disabled'}" href="#" data-toggle="modal" data-target="#myModal" onclick="setSelectedItemID(${item.item.id}, this)" data-date="${item.date}">Видати</a>`;
-
-            if (isIssuedItems && item.granted) {
-                issueButton = ''; // Якщо річ уже видана, кнопку "Видати" не показуємо
-            }
         row.innerHTML = `
             <td>${item.date}</td>
             <td>${item.item.name}</td>
