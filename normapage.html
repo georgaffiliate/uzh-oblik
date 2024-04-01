@@ -448,7 +448,7 @@
         var item = {
             "item_id": parseInt(cells[0].value, 10),  // Перетворення в ціле число
             "count": parseInt(cells[1].value, 10),    // Перетворення в ціле число
-            "term": parseInt(cells[2].value, 10) * 365.24  // Перетворення в ціле число
+            "term": parseFloat(cells[2].value) * 365.24 
         };
         data.items.push(item);
     }
