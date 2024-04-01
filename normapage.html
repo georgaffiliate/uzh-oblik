@@ -230,8 +230,8 @@
 	    <div class="app-content pt-3 p-md-3 p-lg-4">
 		    <div class="container-xl">			    
 				<h1 class="app-page-title" id="normTitle">Норма військовослужбовця:</h1>
-<h4 class="section-title" style="font-size:17px;" id="reasonTitle"></h1>
-<h4 class="section-title" style="font-size:17px;" id="userInfo">стать: невідомо, звання: невідомо, період: невідомо</h4>
+				<h4 class="section-title" style="font-size:17px;" id="userInfo">стать: невідомо, звання: невідомо, період: невідомо</h4>
+				<h4 class="section-title" style="font-size:17px;" id="reasonTitle"></h1>
 
 			    <hr class="mb-4">
                 
@@ -255,7 +255,7 @@
 									const reasonTitle = document.getElementById('reasonTitle');
 									// Оновлення текстового вмісту з назвою норми
 									normTitle.innerText = `Норма військовослужбовця: ${data.name}`;
-									reasonTitle.innerText = `${data.reason}`;
+									reasonTitle.innerText = `Підстава: ${data.reason}`;
 									// Отримання контейнера для інформації про користувача
 									const userInfo = document.getElementById('userInfo');
 						
