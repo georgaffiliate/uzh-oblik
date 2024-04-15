@@ -14909,7 +14909,7 @@ button.close:focus {
 }
 
 .app-card-orders-table .truncate {
-    max-width: 250px;
+    max-width: 650px;
     display: inline-block;
     overflow: hidden;
     text-overflow: ellipsis;
