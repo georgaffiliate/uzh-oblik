@@ -14913,7 +14913,6 @@ button.close:focus {
     display: inline-block;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap
 }
 
 .app-nav-tabs {
