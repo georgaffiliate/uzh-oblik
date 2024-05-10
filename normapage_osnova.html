@@ -230,7 +230,7 @@
 				
 					async function fetchObligations() {
 						const from_id = new URLSearchParams(window.location.search).get('from_norma');
-						const apiUrl = `http://3.71.13.232:5001/norm/${from_id}`;
+						const apiUrl = `http://3.79.104.175:5001/norm/${from_id}`;
 						
 						try {
 							const response = await fetch(apiUrl);
@@ -258,7 +258,7 @@ if (paragraphElement) {
 				
 					async function fetchItems() {
 						try {
-							const response = await fetch('http://3.71.13.232:5001/item');
+							const response = await fetch('http://3.79.104.175:5001/item');
 							if (!response.ok) {
 								throw new Error(`HTTP error! status: ${response.status}`);
 							}
@@ -408,7 +408,7 @@ function deleteRow(btn, index) {
 							// Виконуємо запити на сервер для об'єктів з groupedData
 							Object.values(groupedData).forEach(groupData => {
 								// Використовуйте fetch для відправки об'єднаних даних на сервер
-								fetch('http://3.71.13.232:5001/norm/' + normId + '/group', {
+								fetch('http://3.79.104.175:5001/norm/' + normId + '/group', {
 									method: 'PUT',
 									headers: {
 										'Content-Type': 'application/json'

@@ -281,7 +281,7 @@
                                     let selectedNormId = null; // ID вибраної норми
 
                                     document.addEventListener('DOMContentLoaded', function() {
-                                        fetch('http://3.71.13.232:5001/norm')
+                                        fetch('http://3.79.104.175:5001/norm')
                                             .then(response => response.json())
                                             .then(data => {
                                                 normData = data;
@@ -330,7 +330,7 @@
     const responseMessage = document.getElementById('response-message');
 
     // Отримання ранків з сервера
-    fetch('http://3.71.13.232:5001/ranks')
+    fetch('http://3.79.104.175:5001/ranks')
         .then(response => response.json())
         .then(rankData => {
             // Додавання опцій для ранків у select елементи
@@ -372,7 +372,7 @@
         reason: reason,
     };
 
-    const url = 'http://3.71.13.232:5001/norm';
+    const url = 'http://3.79.104.175:5001/norm';
 									
 											fetch(url, {
 												method: 'PUT',

@@ -254,7 +254,7 @@
 <script>
     function loadRanks() {
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://3.71.13.232:5001/ranks', true);
+        xhr.open('GET', 'http://3.79.104.175:5001/ranks', true);
 
         xhr.onload = function () {
             if (xhr.status == 200) {
@@ -278,7 +278,7 @@
 
     function loadGroups() {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://3.71.13.232:5001/groups', true);
+    xhr.open('GET', 'http://3.79.104.175:5001/groups', true);
 
     xhr.onload = function () {
         if (xhr.status == 200) {
@@ -366,7 +366,7 @@ requestData['group'] = selectedGroupText;
         // Додати дату до об'єкта requestData
         requestData['date'] = dateValue;
 
-        const url = 'http://3.71.13.232:5001/history/serviceman';
+        const url = 'http://3.79.104.175:5001/history/serviceman';
 
         fetch(url, {
             method: 'PUT',

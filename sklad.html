@@ -247,7 +247,7 @@
         };
 
         // Відправляємо запит PUT на бекенд
-        fetch('http://3.71.13.232:5001/item', {
+        fetch('http://3.79.104.175:5001/item', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -327,7 +327,7 @@ function selectItem(itemId, itemName) {
     // Функція для отримання деталей елемента та оновлення таблиці
     // Функція для отримання деталей елемента та оновлення таблиці
 function fetchItemDetails(itemId) {
-    fetch(`http://3.71.13.232:5001/item/${itemId}`, {
+    fetch(`http://3.79.104.175:5001/item/${itemId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -361,7 +361,7 @@ function fetchItemDetails(itemId) {
 window.deleteRow = function (itemId, size) {
     const confirmation = confirm("Ви впевнені, що хочете видалити цей розмір?");
     if (confirmation) {
-        const url = `http://3.71.13.232:5001/item/${itemId}`;
+        const url = `http://3.79.104.175:5001/item/${itemId}`;
         const requestBody = {
             size_to_remove: size
         };
@@ -397,7 +397,7 @@ window.deleteRow = function (itemId, size) {
     const requestBody = {};
     requestBody[size.toLowerCase()] = parseInt(count);
 
-    fetch(`http://3.71.13.232:5001/item/${selectedItemId}`, {
+    fetch(`http://3.79.104.175:5001/item/${selectedItemId}`, {
         method: 'POST', // Змінили метод на POST
         headers: {
             'Content-Type': 'application/json',
@@ -424,7 +424,7 @@ window.deleteRow = function (itemId, size) {
 
     // Функція для запиту GET до сервера та оновлення таблиці
     function fetchItems() {
-        fetch('http://3.71.13.232:5001/item', {
+        fetch('http://3.79.104.175:5001/item', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -529,7 +529,7 @@ window.deleteRow = function (itemId, size) {
         returnable: returnable
     };
 
-    fetch(`http://3.71.13.232:5001/item/${selectedItemId}`, {
+    fetch(`http://3.79.104.175:5001/item/${selectedItemId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

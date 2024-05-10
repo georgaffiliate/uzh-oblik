@@ -251,7 +251,7 @@
     const servicemanId = urlParams.get('id');
 
     // Отримання респонсу GET-запиту
-    fetch(`http://3.71.13.232:5001/serviceman/${servicemanId}`)
+    fetch(`http://3.79.104.175:5001/serviceman/${servicemanId}`)
       .then(response => response.json())
       .then(data => {
         // Заповнення значення id в атрибуті data-id модального вікна
@@ -282,7 +282,7 @@
     const customLeaveDate = document.getElementById('customLeaveDate').value;
 
     // Формування URL для PATCH-запиту
-    const apiUrl = `http://3.71.13.232:5001/serviceman/${servicemanId}/paternity_leave/${leaveId}`;
+    const apiUrl = `http://3.79.104.175:5001/serviceman/${servicemanId}/paternity_leave/${leaveId}`;
 
     // Відправлення PATCH-запиту
     fetch(apiUrl, {
@@ -327,7 +327,7 @@
 									
 										function fetchData() {
 											const id = getQueryParam('id') || '5'; // Використовуємо 5 як значення за замовчуванням
-											fetch(`http://3.71.13.232:5001/serviceman/${id}/norm`)
+											fetch(`http://3.79.104.175:5001/serviceman/${id}/norm`)
 												.then(response => response.json())
 												.then(data => {
 													let output = '';
@@ -412,19 +412,19 @@
     }
 
     // Виконуємо перший GET-запит
-    fetch(`http://3.71.13.232:5001/serviceman/${id}/norm`)
+    fetch(`http://3.79.104.175:5001/serviceman/${id}/norm`)
         .then(response => response.json())
         .then(data => insertDataIntoTable(data))
         .catch(error => console.error('Error:', error));
 
     // Виконуємо другий GET-запит
-    fetch(`http://3.71.13.232:5001/serviceman/${id}/obligation`)
+    fetch(`http://3.79.104.175:5001/serviceman/${id}/obligation`)
         .then(response => response.json())
         .then(data => insertDataIntoTable(data))
         .catch(error => console.error('Error:', error));
 
     // Виконуємо третій GET-запит для виданих речей
-    fetch(`http://3.71.13.232:5001/serviceman/${id}`)
+    fetch(`http://3.79.104.175:5001/serviceman/${id}`)
         .then(response => response.json())
         .then(data => {
             if (data.issues && data.issues.length > 0) {
@@ -461,7 +461,7 @@
                     var grantedDate; // Додаємо глобальну змінну для зберігання дати підвищення
 
                     function setSelectedItemID(receivedItemId, element) {
-                        var url = `http://3.71.13.232:5001/item/${receivedItemId}`;
+                        var url = `http://3.79.104.175:5001/item/${receivedItemId}`;
                         selectedDate = element.getAttribute('data-date');
                         console.log(selectedDate);
 
@@ -485,7 +485,7 @@
                         var servicemanId = window.servicemanId;
                         var grantedDate = document.getElementById("granted").value; // Отримуємо значення дати підвищення
 
-                        var url = `http://3.71.13.232:5001/history/serviceman/${servicemanId}/item/${itemId}`;
+                        var url = `http://3.79.104.175:5001/history/serviceman/${servicemanId}/item/${itemId}`;
 
                         fetch(url, {
                             method: 'PUT',
@@ -530,8 +530,8 @@
 							
 								// Додайте умову, щоб перевірити, чи ідентифікатор не є пустим або не дорівнює null
 								if (userId) {
-									const userUrl = `http://3.71.13.232:5001/serviceman/${userId}`;
-									const ranksUrl = 'http://3.71.13.232:5001/ranks';
+									const userUrl = `http://3.79.104.175:5001/serviceman/${userId}`;
+									const ranksUrl = 'http://3.79.104.175:5001/ranks';
 							
 									// Функція для виконання запиту та отримання даних
 									const fetchData = (url) => {
@@ -732,7 +732,7 @@ if (userData.parental_leaves && userData.parental_leaves.length > 0) {
         };
 
         // Виконати PUT-запит за допомогою Fetch API
-        fetch(`http://3.71.13.232:5001/serviceman/${servicemanId}/terminate`, {
+        fetch(`http://3.79.104.175:5001/serviceman/${servicemanId}/terminate`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -798,7 +798,7 @@ const toDate = document.getElementById('toDate').value;
 const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get('id');
 
-fetch('http://3.71.13.232:5001/serviceman/' + id + '/paternity_leave', {
+fetch('http://3.79.104.175:5001/serviceman/' + id + '/paternity_leave', {
 method: 'PUT', // або 'PUT', залежно від вашої API специфікації
 headers: {
 'Content-Type': 'application/json',
@@ -850,7 +850,7 @@ $('#leaveModal').modal('hide');
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id');
 
-        fetch('http://3.71.13.232:5001/history/serviceman/' + id + '/rank', {
+        fetch('http://3.79.104.175:5001/history/serviceman/' + id + '/rank', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -907,7 +907,7 @@ $('#leaveModal').modal('hide');
 													<script>
 														document.addEventListener("DOMContentLoaded", function() {
 															// Отримати дані з сервера при завантаженні сторінки
-															fetch('http://3.71.13.232:5001/item', {
+															fetch('http://3.79.104.175:5001/item', {
 																method: 'GET',
 																headers: {
 																	'Content-Type': 'application/json',
@@ -957,7 +957,7 @@ $('#leaveModal').modal('hide');
     }
 
     // Створити URL зі значеннями
-    const apiUrl = `http://3.71.13.232:5001/serviceman/${servicemanId}/item/${selectedItemId}`;
+    const apiUrl = `http://3.79.104.175:5001/serviceman/${servicemanId}/item/${selectedItemId}`;
 
     // Дані, які ви хочете відправити на сервер у форматі JSON
     const requestData = {

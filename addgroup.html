@@ -19,7 +19,7 @@
     <link id="theme-style" rel="stylesheet" href="assets/css/portal.css">
 	<script>
         document.addEventListener('DOMContentLoaded', function () {
-            const url = 'http://3.71.13.232:5001/norm/draft';
+            const url = 'http://3.79.104.175:5001/norm/draft';
 
             fetch(url, {
                 method: 'PUT',
@@ -306,7 +306,7 @@
     const responseMessage = document.getElementById('response-message');
 
     // Отримання ранків з сервера
-    fetch('http://3.71.13.232:5001/ranks')
+    fetch('http://3.79.104.175:5001/ranks')
         .then(response => response.json())
         .then(rankData => {
             // Додавання опцій для ранків у select елементи
@@ -348,7 +348,7 @@
         reason: reason,
     };
 
-    const url = 'http://3.71.13.232:5001/norm';
+    const url = 'http://3.79.104.175:5001/norm';
 									
 											fetch(url, {
 												method: 'PUT',
